@@ -99,7 +99,7 @@ BOOK_CONFIGS = {
     "geometric-gastronomy": {
         "number": 12, "title": "Geometric Gastronomy",
         "subtitle": "The Mathematical Structure of Flavor, Pairing, and Culinary Harmony",
-        "source_dirs": ["."], "glob": "OUTLINE.md",
+        "source_dirs": ["chapters"], "glob": "*.md",
     },
 }
 

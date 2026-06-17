@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Appendix B: Flavor Compound Databases &mdash; Geometric Gastronomy</title>
+  <meta name="description" content="Appendix B: Flavor Compound Databases from Geometric Gastronomy: The Mathematical Structure of Flavor, Pairing, and Culinary Harmony, by Andrew H. Bond.">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../book/book.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+</head>
+
+<body data-book-slug="geometric-gastronomy">
+  <nav id="main-nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-brand">
+        <span class="brand-symbol">M</span>
+        <span class="brand-text">Geometric Gastronomy</span>
+      </a>
+      <button class="nav-toggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="series-nav-list"></ul>
+    </div>
+  </nav>
+
+  <article class="book-chapter">
+    <div class="chapter-container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="../index.html">Geometric Series</a>
+        <span class="breadcrumb-sep">&rsaquo;</span>
+        <a href="index.html">Geometric Gastronomy</a>
+        <span class="breadcrumb-sep">&rsaquo;</span>
+        <span class="breadcrumb-current">Appendix B: Flavor Compound Databases</span>
+      </nav>
+
+      <div class="chapter-content">
+<h1 id="appendix-b-flavor-compound-databases">Appendix B: Flavor Compound Databases</h1>
+<p>The geometric theory of flavor developed in this book rests on a claim that is, in the end, empirical: that the flavor of a food can be written as a vector, and that the components of that vector are recoverable from the molecules the food contains. Chapter 1 introduced the chain of projections $10^4 \to 400 \to \sim\!30$ — from the chemical inventory of a food, through the receptor responses, to the perceptual dimensions a trained human can report. The leftmost arrow of that chain is what this appendix is about. Before any geometry can be done, a food must be turned into a list of compounds, and that list must be turned into numbers.</p>
+<p>There is no single oracle that performs this step. What exists instead is a small constellation of curated databases, assembled by different groups for different purposes, with different scopes, different identifiers, and different silences. To work in flavor space at all, one must know what these databases contain, how they join to one another, and — most importantly — what they leave out. This appendix surveys the three that matter most (FlavorDB, FooDB, and VCF), then gives the schema and the joins needed to assemble a compound vector, and closes with a fully worked construction of one ingredient&rsquo;s vector from raw records.</p>
+<p>A standing caution, which the rest of the appendix will earn: <strong>the compound vector is not the flavor vector.</strong> It is the leftmost object in Chapter 1&rsquo;s chain — a point in the $\sim\!10^4$-dimensional chemical space, not the $\sim\!30$-dimensional perceptual space $\mathcal{F}$. The databases give us the chemistry honestly and the perception only by inference. Conflating the two is the single most common error in computational gastronomy, and it is the error Chapter 10 (§10.6) names as &ldquo;the map is not the territory.&rdquo;</p>
+<h2 id="b1-the-three-databases-contents-scale-and-access">B.1 The Three Databases: Contents, Scale, and Access</h2>
+<h3 id="flavordb">FlavorDB</h3>
+<p><strong>FlavorDB</strong> (Garg et al., <em>Nucleic Acids Research</em>, 2018; updated as FlavorDB2, 2022) is the database most directly aligned with the program of this book, because it is organized around exactly the bipartite structure Chapter 4 exploits: <strong>ingredients on one side, flavor molecules on the other, edges where an ingredient contains a molecule.</strong> It was assembled by the Bagler group at IIIT-Delhi specifically to support computational food-pairing research in the lineage of Ahn et al. (2011), and its design reflects that lineage.</p>
+<p><strong>[Empirical.]</strong> FlavorDB catalogs on the order of <strong>25,000 flavor molecules</strong> and roughly <strong>900–1,000 natural ingredients</strong>, the ingredients grouped into 34 categories (vegetables, fruits, spices, meats, dairy, and so on). For each molecule it stores a chemical identity (name, synonyms, PubChem CID, InChIKey, SMILES), a set of computed molecular descriptors, and — the part that matters for us — a list of <strong>flavor descriptors</strong> (&ldquo;fruity,&rdquo; &ldquo;green,&rdquo; &ldquo;buttery,&rdquo; &ldquo;sulfurous&rdquo;) drawn from the underlying sensory literature. For each ingredient it stores the set of molecules associated with it and the natural-source ontology (a FlavorDB &ldquo;entity&rdquo;) that the ingredient belongs to.</p>
+<p>Access is through a web interface (a searchable ingredient browser and molecule pages) and, for programmatic use, a REST-style JSON API and downloadable flat files. In practice most analyses download the full ingredient–molecule association table once and work locally; the API is convenient for spot lookups but rate-limited for bulk extraction. The natural unit of a FlavorDB record is the <strong>(ingredient, molecule) association</strong>, which is precisely the entry of the bipartite incidence matrix we will build in §B.2.</p>
+<p>What FlavorDB does <em>not</em> give you is concentration. An edge means &ldquo;this molecule has been reported in this ingredient,&rdquo; not &ldquo;in this amount.&rdquo; This is the database&rsquo;s defining limitation and the source of the most important caveat in §B.2: FlavorDB is, by construction, a <strong>presence/absence (binary) incidence structure.</strong> The flavor network of Ahn et al. that motivated the whole enterprise is itself a presence/absence network, so for reproducing and extending that line of work FlavorDB is the natural home; for anything that depends on <em>how much</em> of a compound is present, it is insufficient on its own.</p>
+<h3 id="foodb">FooDB</h3>
+<p><strong>FooDB</strong> (www.foodb.ca; Wishart group, the same group behind HMDB, DrugBank, and the Human Metabolome Database) is the largest and most chemically detailed of the three. Where FlavorDB is purpose-built for flavor pairing, FooDB is a general <strong>food constituent</strong> database: it aims to record every chemical that has been found in food, flavor-active or not — nutrients, macronutrients, pigments, contaminants, and metabolites alongside the volatiles and tastants we care about.</p>
+<p><strong>[Empirical.]</strong> FooDB covers roughly <strong>800 foods</strong> and on the order of <strong>70,000+ chemical compounds</strong> (the published figure is &ldquo;over 70,000,&rdquo; with the great majority being constituents that are <em>not</em> flavor compounds in any narrow sense). For each compound it stores an exceptionally rich record: structure (SMILES, InChI, InChIKey), classification (the ChemOnt taxonomy from ClassyFire), physicochemical properties, external identifiers (PubChem, ChEBI, CAS, HMDB), and, where available, <strong>concentration data</strong> in specific foods with provenance back to the source literature. It also stores explicit <strong>flavor</strong> and <strong>health-effect</strong> annotations for many compounds.</p>
+<p>This is the crucial complement to FlavorDB. FooDB&rsquo;s &ldquo;Content&rdquo; records can carry quantitative concentrations (e.g., a compound present at some mg/kg in a given food), with the heavy caveat that coverage is uneven — many food–compound pairs have a qualitative &ldquo;detected but not quantified&rdquo; flag rather than a number. FooDB is distributed as a full database dump (downloadable as CSV/JSON or a SQL dump) under terms that permit research use; there is no need to scrape the web interface for bulk work, and you should not.</p>
+<p>The cost of FooDB&rsquo;s breadth is that <strong>most of its compounds are noise for flavor purposes.</strong> A naive vector built from &ldquo;all FooDB compounds in this food&rdquo; will be dominated by sugars, amino acids, lipids, and assorted metabolites that contribute little or nothing to aroma. Using FooDB well means filtering to the flavor-relevant subspace — which is exactly where its flavor annotations and its joins to FlavorDB and VCF (§B.2) become necessary.</p>
+<h3 id="vcf-volatile-compounds-in-food">VCF (Volatile Compounds in Food)</h3>
+<p><strong>VCF — Volatile Compounds in Food</strong> (originally the TNO database, Nijssen et al.; maintained commercially, current editions branded VCF Online / Triskelion-BoelensAroma) is the oldest and most specialized of the three, and in a precise sense the most authoritative for aroma. It restricts itself to <strong>volatile</strong> compounds — the molecules that reach the olfactory epithelium and therefore populate the aroma block $\mathbf{a}$ of the flavor vector — and it has been curated continuously since the 1960s from the primary analytical-chemistry literature.</p>
+<p><strong>[Empirical.]</strong> VCF documents on the order of <strong>10,000 volatile compounds</strong> across roughly <strong>several hundred to ~1,000 food products</strong>, with the records traced to <strong>tens of thousands of literature references</strong>. Each entry records the compound, the food in which it was detected, the analytical method, and — distinctively — frequently a <strong>quantitative concentration range</strong> and a literature citation, because VCF&rsquo;s reason for existing is to be a defensible reference for the flavor and fragrance industry. For aroma chemistry specifically, VCF is the gold standard: it is the database a flavorist actually trusts.</p>
+<p>The trade-offs are scope and access. VCF is <strong>volatiles only</strong>, so it is silent on non-volatile tastants — it will tell you nothing about the glutamate or the organic acids that anchor the taste block $\mathbf{t}$. And it is a <strong>commercial, subscription</strong> product: there is no free bulk download, access is via a licensed web portal, and its terms generally prohibit redistribution of the underlying data. For reproducible academic pipelines this means VCF is typically used as a high-quality validation and enrichment layer against an open backbone (FlavorDB + FooDB), rather than as the primary corpus.</p>
+<h3 id="summary-of-scope">Summary of scope</h3>
+<p>The three databases partition the problem cleanly enough to be worth tabulating. The recurring lesson is that <strong>no single database is complete</strong>: FlavorDB gives the bipartite structure but no quantities; FooDB gives quantities and breadth but mostly non-flavor noise; VCF gives authoritative volatiles but no tastants and no open access.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>FlavorDB</th>
+<th>FooDB</th>
+<th>VCF</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Built for</td>
+<td>Food pairing / flavor networks</td>
+<td>Food constituents (general)</td>
+<td>Aroma chemistry (industry)</td>
+</tr>
+<tr>
+<td>Compounds</td>
+<td>~25,000 flavor molecules</td>
+<td>~70,000+ constituents</td>
+<td>~10,000 volatiles</td>
+</tr>
+<tr>
+<td>Foods / ingredients</td>
+<td>~900–1,000 ingredients</td>
+<td>~800 foods</td>
+<td>~hundreds–1,000 products</td>
+</tr>
+<tr>
+<td>Quantities?</td>
+<td>No (presence/absence)</td>
+<td>Sometimes (uneven)</td>
+<td>Often (concentration ranges)</td>
+</tr>
+<tr>
+<td>Scope</td>
+<td>Flavor molecules</td>
+<td>All constituents</td>
+<td>Volatiles only</td>
+</tr>
+<tr>
+<td>Access</td>
+<td>Open (web + JSON + download)</td>
+<td>Open (full DB dump)</td>
+<td>Commercial subscription</td>
+</tr>
+<tr>
+<td>Key IDs</td>
+<td>PubChem CID, InChIKey, SMILES</td>
+<td>PubChem, ChEBI, CAS, HMDB, InChIKey</td>
+<td>CAS, compound name</td>
+</tr>
+</tbody>
+</table>
+<h2 id="b2-extracting-and-working-with-flavor-compound-vectors">B.2 Extracting and Working with Flavor-Compound Vectors</h2>
+<h3 id="the-object-we-are-building">The object we are building</h3>
+<p>Fix a vocabulary of $M$ compounds $\{c_1, \dots, c_M\}$ and a set of $N$ ingredients. The raw output of the databases is an <strong>incidence matrix</strong> $A \in \mathbb{R}^{N \times M}$ whose entry $A_{ij}$ records the relationship between ingredient $i$ and compound $j$. The $i$-th row,
+$$ \mathbf{c}_i = (A_{i1}, A_{i2}, \dots, A_{iM}) \in \mathbb{R}^{M}, $$
+is the <strong>compound vector</strong> of ingredient $i$. In the presence/absence regime (FlavorDB) every $A_{ij} \in \{0,1\}$; in the quantitative regime (FooDB/VCF) $A_{ij}$ is a concentration. This $\mathbf{c}_i$ is the chemical object of Chapter 1&rsquo;s leftmost space; it is not yet the perceptual $\mathbf{f}_i \in \mathcal{F}$, and §B.2&rsquo;s last subsection is about the gap between them.</p>
+<h3 id="the-canonical-schema">The canonical schema</h3>
+<p>Stripped to essentials, all three databases share the same three-table relational core, and writing it out explicitly is the fastest way to see how they join:</p>
+<ul>
+<li><strong><code>ingredient</code></strong> — <code>(ingredient_id, name, category, source_entity)</code>. The node on the food side.</li>
+<li><strong><code>compound</code></strong> — <code>(compound_id, name, inchikey, pubchem_cid, smiles, flavor_descriptors, is_volatile)</code>. The node on the molecule side. The <code>inchikey</code> and <code>pubchem_cid</code> are the join keys that survive across databases; the human-readable <code>name</code> does not (see the caveats).</li>
+<li><strong><code>contains</code></strong> — <code>(ingredient_id, compound_id, concentration, concentration_unit, detection_method, reference)</code>. The edge. In FlavorDB this table is effectively <code>(ingredient_id, compound_id)</code> with the quantitative columns null; in FooDB and VCF the quantitative columns are populated where the source literature supported it.</li>
+</ul>
+<p>The incidence matrix $A$ is just this <code>contains</code> table pivoted: rows indexed by <code>ingredient_id</code>, columns by <code>compound_id</code>, values from <code>concentration</code> (or $1$ in the binary regime).</p>
+<h3 id="the-joins-and-why-they-are-the-hard-part">The joins, and why they are the hard part</h3>
+<p>The reason to learn all three schemas is that <strong>a serious flavor vector is assembled by joining across them</strong>, and the join is where the silent failures live.</p>
+<p><strong>[Modeling Axiom.]</strong> Join on <strong>InChIKey</strong>, never on compound name. The InChIKey is a hashed, canonical representation of molecular structure; it is the only identifier that is both present across FlavorDB, FooDB, and VCF and stable under the synonym chaos of trivial chemical names. &ldquo;Linalool,&rdquo; &ldquo;3,7-dimethyl-1,6-octadien-3-ol,&rdquo; and &ldquo;β-linalool&rdquo; are the same molecule and should collapse to one column; joining on the string <code>name</code> will scatter them across three columns and silently inflate your dimensionality. Where InChIKey is missing, fall back to PubChem CID; fall back to name only as a last resort and only after manual review.</p>
+<p>A practical extraction pipeline is then:</p>
+<ol>
+<li><strong>Backbone.</strong> Take FlavorDB&rsquo;s <code>contains</code> table as the bipartite backbone — it defines which (ingredient, compound) edges are considered &ldquo;flavor-relevant&rdquo; at all. This already filters FooDB&rsquo;s 70,000+ constituents down toward the flavor-active subset.</li>
+<li><strong>Quantify.</strong> Left-join FooDB&rsquo;s <code>Content</code> records onto the backbone by <code>inchikey</code>, populating <code>concentration</code> where FooDB has it. Most edges will remain quantity-null; that is expected and must be handled deliberately (next subsection), not silently zero-filled.</li>
+<li><strong>Enrich and validate aroma.</strong> Where access permits, join VCF by <code>inchikey</code>/CAS to confirm volatility and to override FooDB concentrations for volatiles with VCF&rsquo;s better-curated ranges. VCF also supplies a clean <code>is_volatile</code> flag for partitioning the vector into its taste vs. aroma blocks.</li>
+<li><strong>Vocabulary control.</strong> Restrict the column set $\{c_j\}$ to a fixed vocabulary (e.g., compounds appearing in $\geq k$ ingredients, or compounds with a non-empty flavor descriptor) so that vectors across ingredients live in the same space and are comparable.</li>
+</ol>
+<h3 id="caveats-the-silences-that-bite">Caveats — the silences that bite</h3>
+<p>The geometry is only as honest as the matrix, and $A$ has four structural distortions that every downstream result inherits.</p>
+<p><strong>Presence/absence is not concentration.</strong> A binary $A_{ij}$ says strawberry &ldquo;contains&rdquo; furaneol and &ldquo;contains&rdquo; some trace ester at equal weight $1$, though one defines the fruit and the other is a rounding error. Cosine similarity (Chapter 4) computed on binary vectors therefore measures <em>chemical overlap of inventories</em>, not <em>perceptual similarity of flavor</em> — a fact that explains both the successes and the failures of the food-pairing hypothesis. When concentrations exist, use them; when they do not, be explicit that you are computing an inventory-overlap statistic.</p>
+<p><strong>Missing data is not zero.</strong> A null in the <code>contains</code> table almost always means &ldquo;not measured in this food,&rdquo; not &ldquo;measured and absent.&rdquo; Zero-filling — the default behavior of every pivot operation — fabricates absence. This biases $A$ toward whatever foods have been studied most (tomato, coffee, wine, and strawberry are exhaustively profiled; most ingredients are not), an instance of the reporting bias Chapter 4 (§4.7) flags when reanalyzing Ahn&rsquo;s network.</p>
+<p><strong>Detection threshold $\neq$ perceptual threshold.</strong> GC-MS (Appendix C) detects compounds far below the concentration at which a human could smell them, and conversely a compound near or below its <strong>odor detection threshold</strong> contributes nothing to perceived aroma regardless of how it weights the vector. The chemically correct vector and the perceptually correct vector differ by exactly this threshold nonlinearity. The principled fix is to weight each component not by raw concentration $A_{ij}$ but by its <strong>odor activity value</strong> $\text{OAV}_{ij} = A_{ij} / \theta_j$, where $\theta_j$ is compound $j$&rsquo;s odor threshold; components with $\text{OAV} < 1$ are perceptually silent. This is the first, crudest step of Chapter 1&rsquo;s projection from chemistry toward perception.</p>
+<p><strong>Matrix effects and nonlinearity.</strong> Even OAV-weighting is linear, and perception is not: suppression, synergy, and the nonlinear summation that Chapter 1 (§1.1) called the curvature of the flavor metric all mean that $\mathbf{f}_i$ is a <em>curved</em> function of $\mathbf{c}_i$, not a linear readout. The databases give $\mathbf{c}_i$; recovering $\mathbf{f}_i$ requires the receptor model of Chapter 2 and the metric of Chapter 3. <strong>The compound vector is where geometry starts, not where it ends.</strong></p>
+<h2 id="b3-worked-construction-a-compound-vector-for-strawberry">B.3 Worked Construction: A Compound Vector for Strawberry</h2>
+<p>To make the pipeline concrete, we construct the compound vector for <strong>strawberry</strong> (<em>Fragaria × ananassa</em>) — a deliberately easy case, because strawberry is among the most exhaustively profiled foods in all three databases and its aroma chemistry is genuinely understood.</p>
+<p><strong>Step 1 — Pull the backbone edges.</strong> Query FlavorDB&rsquo;s <code>contains</code> table for <code>ingredient = "strawberry"</code>. The result is a list of associated flavor molecules — several hundred entries in FlavorDB&rsquo;s full record — each with a PubChem CID and InChIKey. Conceptually:</p>
+<pre><code>SELECT c.name, c.inchikey, c.pubchem_cid, c.flavor_descriptors, c.is_volatile
+FROM contains ct
+JOIN ingredient i ON ct.ingredient_id = i.id
+JOIN compound  c ON ct.compound_id   = c.id
+WHERE i.name = 'strawberry';
+</code></pre>
+<p>This yields rows including, among many others, furaneol (4-hydroxy-2,5-dimethyl-3(2H)-furanone; the &ldquo;strawberry furanone&rdquo;), methyl butanoate and ethyl butanoate (fruity esters), methyl anthranilate (grape-like), linalool (floral), $\gamma$-decalactone (peachy/creamy), and (E)-2-hexenal (green). At this stage every entry is presence/absence: $A_{ij} = 1$.</p>
+<p><strong>Step 2 — Join concentrations from FooDB.</strong> Left-join FooDB <code>Content</code> on <code>inchikey</code>. For the well-studied strawberry volatiles this populates concentration ranges (FooDB carries quantitative records for furaneol, the principal esters, and the major lactones); for the long tail of trace compounds the concentration remains null. Resist the urge to zero-fill the nulls — flag them as &ldquo;present, unquantified&rdquo; and handle them as a separate stratum.</p>
+<p><strong>Step 3 — Confirm volatiles and thresholds.</strong> Join VCF (where licensed) to confirm <code>is_volatile</code> and to attach odor detection thresholds $\theta_j$. Furaneol&rsquo;s threshold is extraordinarily low; its concentration in ripe strawberry is well above it, so its OAV is large. A trace ester present at near-threshold concentration receives an OAV near $1$ and is nearly silent regardless of being chemically present.</p>
+<p><strong>Step 4 — Form the OAV-weighted vector.</strong> For the quantified components, replace raw presence with odor activity value:
+$$ A_{\text{straw},\,j} \;\longrightarrow\; \text{OAV}_{\text{straw},\,j} = \frac{[\,c_j\,]_{\text{strawberry}}}{\theta_j}. $$
+The result is a vector in which a handful of components dominate. <strong>[Empirical.]</strong> Sensory-chemistry studies of strawberry (e.g., the aroma-recombination work in the Schieberle/Steinhaus tradition) converge on the same short list: furaneol and its methyl ether, a few esters (ethyl/methyl butanoate, methyl hexanoate), $\gamma$-decalactone, and linalool reconstruct most of the recognizable strawberry aroma. In OAV terms the several-hundred-dimensional chemical vector collapses to an effective dimensionality of perhaps a dozen — a concrete instance of the $10^4 \to \sim\!30$ compression Chapter 1 promised, performed here by the odor-threshold nonlinearity alone, before any receptor model is applied.</p>
+<p><strong>Step 5 — Interpret what you have, and what you do not.</strong> The OAV-weighted vector $\mathbf{c}_{\text{strawberry}}$ is now a defensible <em>chemical</em> description of strawberry aroma: comparable across ingredients (same vocabulary, same weighting), dominated by the perceptually live components, honest about its quantitative gaps. It is suitable as input to the cosine-similarity pairing analysis of Chapter 4 and as a row in the cuisine-PCA of Chapter 9. It is <em>not</em> the perceptual flavor vector $\mathbf{f}_{\text{strawberry}} \in \mathcal{F}$: it carries no taste block (the database aroma records say nothing about the berry&rsquo;s sweetness or acidity, which live in $\mathbf{t}$ and must come from compositional data on sugars and organic acids), and it has not yet been passed through the receptor map of Chapter 2 or the curved metric of Chapter 3 that would turn co-occurring chemistry into co-perceived flavor. The construction has carried us, faithfully and reproducibly, exactly one arrow along Chapter 1&rsquo;s chain — from the food to its chemistry. The remaining arrows are the subject of the main text.</p>
+<h2 id="b4-practical-recommendations">B.4 Practical Recommendations</h2>
+<p>For a reproducible flavor-space pipeline of the kind used throughout this book and released in Appendix D, the recommendations reduce to a short list:</p>
+<ul>
+<li><strong>Use FlavorDB as the bipartite backbone</strong>, FooDB for breadth and concentrations, and VCF (where licensed) for authoritative aroma validation. Treat none of them as complete.</li>
+<li><strong>Join on InChIKey</strong>, fall back to PubChem CID, and treat name-based joins as a manual-review-only last resort.</li>
+<li><strong>Never zero-fill missing concentrations.</strong> Distinguish &ldquo;absent,&rdquo; &ldquo;present but unquantified,&rdquo; and &ldquo;quantified&rdquo; as three explicit strata.</li>
+<li><strong>Weight by odor activity value, not raw concentration</strong>, whenever thresholds are available; components with $\text{OAV} < 1$ are perceptually silent and should be down-weighted toward zero.</li>
+<li><strong>State plainly which space you are in.</strong> A result computed on compound vectors is a statement about chemistry; promoting it to a statement about perception requires the machinery of Chapters 2 and 3, and the promotion should be argued, not assumed.</li>
+</ul>
+<p>The databases are the empirical floor on which the geometry of this book stands. They are partial, biased toward well-studied foods, and quantitatively uneven — and they are nonetheless enough, handled honestly, to recover the structure the rest of the volume describes. The geometry was always in the chemistry. The databases are how we finally get to count it.</p>
+      </div>
+
+      <div class="chapter-nav-bottom">
+        <a href="index.html" class="nav-toc">&larr; Contents</a>
+      </div>
+    </div>
+  </article>
+
+  <footer class="book-footer">
+    <p>&copy; 2026 Andrew H. Bond. <em>Geometric Gastronomy: The Mathematical Structure of Flavor, Pairing, and Culinary Harmony.</em></p>
+    <p class="footer-note">The geometry was always real. The scalars were always insufficient.</p>
+  </footer>
+
+  <script src="../assets/js/series.js"></script>
+  <script>
+    window.addEventListener('scroll', function () {
+      document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 20);
+    });
+    document.querySelector('.nav-toggle')?.addEventListener('click', function () {
+      document.querySelector('.nav-links').classList.toggle('open');
+    });
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\\\(', right: '\\\\)', display: false},
+        {left: '\\\\[', right: '\\\\]', display: true}
+      ],
+      throwOnError: false
+    });"></script>
+</body>
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Appendix A: Mathematical Preliminaries &mdash; Geometric Gastronomy</title>
+  <meta name="description" content="Appendix A: Mathematical Preliminaries from Geometric Gastronomy: The Mathematical Structure of Flavor, Pairing, and Culinary Harmony, by Andrew H. Bond.">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../book/book.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+</head>
+
+<body data-book-slug="geometric-gastronomy">
+  <nav id="main-nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-brand">
+        <span class="brand-symbol">M</span>
+        <span class="brand-text">Geometric Gastronomy</span>
+      </a>
+      <button class="nav-toggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="series-nav-list"></ul>
+    </div>
+  </nav>
+
+  <article class="book-chapter">
+    <div class="chapter-container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="../index.html">Geometric Series</a>
+        <span class="breadcrumb-sep">&rsaquo;</span>
+        <a href="index.html">Geometric Gastronomy</a>
+        <span class="breadcrumb-sep">&rsaquo;</span>
+        <span class="breadcrumb-current">Appendix A: Mathematical Preliminaries</span>
+      </nav>
+
+      <div class="chapter-content">
+<h1 id="appendix-a-mathematical-preliminaries">Appendix A: Mathematical Preliminaries</h1>
+<blockquote>
+<p><em>&ldquo;It is the harmony of the diverse parts, their symmetry, their happy balance; in a word it is all that introduces order, all that gives unity, that permits us to see clearly and to comprehend at once both the ensemble and the details.&rdquo;</em>
+— Henri Poincaré, <em>The Value of Science</em> (1905)</p>
+</blockquote>
+<p>This appendix is a self-contained primer on the three mathematical tools the book leans on most heavily: the differential geometry of curved spaces (Riemannian manifolds, metric tensors, geodesics), the optimization geometry of constraints and trade-offs (convex sets, the simplex, Pareto frontiers), and the linear algebra of dimensionality reduction (principal component analysis). None of it is original. The aim is modest: to give a reader without a graduate background enough working vocabulary to follow the geometric arguments of the main text, and to make explicit the standard results those arguments quietly assume.</p>
+<p>The treatment is deliberately informal. Where the body of the book writes &ldquo;the flavor metric is curved&rdquo; or &ldquo;balance is a fixed point on a low-dimensional manifold,&rdquo; this appendix supplies the definitions that make such sentences precise. Each section closes with a single worked micro-example and a list of the chapters where the tool does real work, so the reader can read the preliminary and then go straight to the application.</p>
+<p>A note on notation, consistent with the main text. Flavor vectors are written $\mathbf{f}$, with named components such as $f_{\text{umami}}$ or $f_{\text{sour}}$; the flavor space itself is $\mathcal{F}$. Bold lowercase letters are vectors, uppercase letters are matrices, and Greek indices $\mu, \nu$ run over coordinate directions. We work throughout over the real numbers.</p>
+<h2 id="a1-riemannian-manifolds-metric-tensors-and-geodesics">A.1 Riemannian Manifolds, Metric Tensors, and Geodesics</h2>
+<h3 id="manifolds-curved-spaces-that-are-flat-up-close">Manifolds: curved spaces that are flat up close</h3>
+<p>A <strong>manifold</strong> is a space that looks like ordinary flat Euclidean space $\mathbb{R}^n$ in any small neighborhood, even though its global shape may be curved. The surface of the Earth is the standard example: locally it looks flat (a city map works fine), but globally it is a sphere, and no flat map of the whole thing avoids distortion. The number $n$ is the <strong>dimension</strong> of the manifold — the number of independent coordinates needed to specify a point locally. On the Earth&rsquo;s surface, $n = 2$ (latitude and longitude).</p>
+<p>The book&rsquo;s central object, the flavor space $\mathcal{F}$, is modeled as a manifold of dimension on the order of a few tens (Chapter 1, §1.4): each point is a distinct flavor percept, and the coordinates are perceptual directions — taste components, olfactory-manifold coordinates, trigeminal axes, texture. The reason $\mathcal{F}$ is treated as a <em>manifold</em> rather than as plain $\mathbb{R}^n$ is that, as we will see, distances and angles in it are not uniform — the space is curved.</p>
+<p>A <strong>chart</strong> is a local coordinate system, a way of labeling points in some patch of the manifold by tuples of numbers. The transition between two overlapping charts is required to be smooth, which is what lets us do calculus on the manifold. The <strong>tangent space</strong> at a point $p$, written $T_p$, is the vector space of all directions one can move in from $p$; intuitively it is the flat plane that just touches the manifold at $p$ (the tangent plane to a sphere at one point). Velocities, gradients, and the &ldquo;fix vectors&rdquo; of Chapter 1 (lime as $+f_{\text{sour}}$, miso as $+f_{\text{umami}}$) all live in tangent spaces.</p>
+<h3 id="the-metric-tensor-how-to-measure-length-and-angle-locally">The metric tensor: how to measure length and angle locally</h3>
+<p>On flat $\mathbb{R}^n$, the distance between nearby points and the angle between two directions come from the familiar dot product. On a curved manifold the dot product itself varies from point to point, and the object that encodes it is the <strong>metric tensor</strong> $g$. At each point $p$, the metric is a symmetric, positive-definite matrix $g_{\mu\nu}(p)$ that defines an inner product on the tangent space $T_p$:</p>
+<p>$$ \langle \mathbf{u}, \mathbf{v} \rangle_p = \sum_{\mu,\nu} g_{\mu\nu}(p)\, u^\mu v^\nu. $$</p>
+<p>The squared length of an infinitesimal displacement $d\mathbf{x}$ with components $dx^\mu$ is the <strong>line element</strong></p>
+<p>$$ ds^2 = \sum_{\mu,\nu} g_{\mu\nu}(p)\, dx^\mu\, dx^\nu. $$</p>
+<p><strong>[Modeling Axiom.]</strong> When $g_{\mu\nu}$ is the identity matrix everywhere, $ds^2 = \sum_\mu (dx^\mu)^2$ and we recover ordinary Euclidean geometry. The book&rsquo;s claim is that flavor space is <em>not</em> of this form. Two features of $g$ carry the geometry:</p>
+<ul>
+<li>The <strong>diagonal entries</strong> $g_{\mu\mu}$ set the local scale of each axis — how much perceptual &ldquo;distance&rdquo; a unit step along that coordinate costs. A logarithmic metric, in which a fixed <em>ratio</em> of concentrations rather than a fixed <em>difference</em> counts as one step, is exactly the Weber–Fechner structure developed in Chapter 3 (§3.1).</li>
+<li>The <strong>off-diagonal entries</strong> $g_{\mu\nu}$ ($\mu \neq \nu$) encode interaction between axes — the degree to which moving along one direction changes the cost or meaning of moving along another. The book uses these to model cross-modal taste interactions: salt–glutamate synergy, sweet suppressing bitter (Chapter 1, §1.1; Chapter 3, §3.2). An off-diagonal metric is the precise statement that the five tastes are not an orthonormal frame.</li>
+</ul>
+<p>That the metric <strong>varies with position</strong> — $g_{\mu\nu}$ is a function of $p$, not a constant — is the defining property of a <strong>Riemannian manifold</strong>, and the source of all curvature. &ldquo;Adding salt near sweetness feels different from adding salt near bitterness&rdquo; (Chapter 3, §3.2) is the kitchen-level statement that $g_{\mu\nu}(p)$ depends on where in $\mathcal{F}$ you are standing.</p>
+<h3 id="geodesics-straight-lines-on-a-curved-space">Geodesics: straight lines on a curved space</h3>
+<p>The length of a curve $\gamma$ running from point $a$ to point $b$ is obtained by integrating the line element along it:</p>
+<p>$$ L[\gamma] = \int_a^b \sqrt{\sum_{\mu,\nu} g_{\mu\nu}(\gamma(t))\, \dot{\gamma}^\mu(t)\, \dot{\gamma}^\nu(t)} \; dt, $$</p>
+<p>where $\dot{\gamma}$ is the velocity along the curve. A <strong>geodesic</strong> is a locally length-minimizing curve — the manifold&rsquo;s notion of a straight line. On a flat plane, geodesics are ordinary straight lines; on a sphere, they are great-circle arcs (which is why long-haul flight paths bow toward the poles). Geodesics satisfy a second-order differential equation, the geodesic equation, whose coefficients (the Christoffel symbols) are built from derivatives of the metric; one does not need the equation to use the concept, only the idea that the shortest path between two flavors bends according to the local metric.</p>
+<p>This is the precise content of the book&rsquo;s recurring claim that <strong>expertise is the ability to follow geodesics</strong>. The line cook of Chapter 1 does not search a list; she moves along the short, metric-respecting path from the flat purée $\mathbf{f}_0$ to the balanced target $\mathbf{f}^\star$. Because the metric is curved, the efficient correction is not &ldquo;equal parts of everything&rdquo; but a direction weighted by the local $g_{\mu\nu}$ — which is what years of training encode.</p>
+<p><strong>Worked micro-example.</strong> Consider a tiny two-dimensional flavor patch with coordinates $(x^1, x^2) = (\text{salt}, \text{umami})$ and a constant metric</p>
+<p>$$ g = \begin{pmatrix} 1 & 0.6 \\ 0.6 & 1 \end{pmatrix}. $$</p>
+<p>The positive off-diagonal $0.6$ encodes salt–umami synergy: the axes are correlated. Take a displacement of one unit along each axis, $d\mathbf{x} = (1, 1)$. Under the Euclidean metric (identity matrix) its squared length would be $1^2 + 1^2 = 2$. Under $g$,</p>
+<p>$$ ds^2 = 1\cdot 1^2 + 2\,(0.6)(1)(1) + 1\cdot 1^2 = 2 + 1.2 = 3.2, $$</p>
+<p>so $ds \approx 1.79$. Moving along the <em>joint</em> salt-and-umami direction covers more perceptual ground than the Euclidean count suggests — a small pinch of salt makes the glutamate &ldquo;leap forward,&rdquo; and the metric records that the two moves reinforce. Had we instead moved along $d\mathbf{x} = (1, -1)$ (more salt, less umami), we would get $ds^2 = 2 - 1.2 = 0.8$, a <em>shorter</em> perceptual step: trading one savory axis against the other partly cancels. The same Euclidean displacement, two different perceptual lengths — that is curvature doing tasteable work.</p>
+<p><strong>Where this is used.</strong> Riemannian structure is the backbone of Chapter 3 (the metric of flavor: Weber–Fechner as a logarithmic metric, position-dependent $g_{\mu\nu}$, Stevens&rsquo; power law as curvature of iso-intensity surfaces). The olfactory manifold of Chapter 1 (§1.2) and Chapter 2 (§2.4) is a curved sheet inside receptor space. Geodesics reappear as fusion-cuisine interpolation in Chapter 9 (§9.4) and as the seasoning fixed point and stability arguments in Chapter 6 (§6.6). The path-dependence of the metric is flagged as an open problem in Chapter 14 (§14.2). The same differential-geometric apparatus is developed at length in sibling volumes — <em>Geometric Economics</em> (Volume 4) treats the decision manifold and its metric tensor in its Chapter 3–4, and <em>Geometric Cognition</em> (Volume 6) uses it for representational geometry.</p>
+<h2 id="a2-convex-optimization-simplex-geometry-and-pareto-frontiers">A.2 Convex Optimization, Simplex Geometry, and Pareto Frontiers</h2>
+<h3 id="convex-sets-and-convex-functions">Convex sets and convex functions</h3>
+<p>A set $C \subseteq \mathbb{R}^n$ is <strong>convex</strong> if, for any two points $\mathbf{x}, \mathbf{y} \in C$, the entire line segment between them lies in $C$:</p>
+<p>$$ \lambda \mathbf{x} + (1-\lambda)\mathbf{y} \in C \quad \text{for all } \lambda \in [0,1]. $$</p>
+<p>A disk is convex; a crescent is not. A function $h: \mathbb{R}^n \to \mathbb{R}$ is <strong>convex</strong> if its graph never bulges above any of its chords — formally, $h(\lambda \mathbf{x} + (1-\lambda)\mathbf{y}) \le \lambda h(\mathbf{x}) + (1-\lambda) h(\mathbf{y})$. The decisive practical fact is that <strong>a convex function over a convex set has no local minima other than its global minimum</strong>: if you are at a low point and every nearby direction goes up, you are at <em>the</em> low point. This is what makes convex optimization tractable — local search cannot get stuck — and it is why the book repeatedly distinguishes genuinely convex problems (solvable) from non-convex ones with multiple basins (where &ldquo;junk food is a local optimum,&rdquo; Chapter 11, §11.3).</p>
+<p>A <strong>convex optimization problem</strong> has the form: minimize a convex objective $h(\mathbf{x})$ subject to the constraint that $\mathbf{x}$ lie in a convex feasible set, typically specified by convex inequalities $c_i(\mathbf{x}) \le 0$ and linear equalities. The nutritional-requirements set of Chapter 11 (§11.1) — minimum protein, capped sodium, calorie band — is precisely an intersection of such constraints, hence a convex <strong>feasible region</strong>, and the &ldquo;geometric diet&rdquo; problem is the search for a point inside it that is also close to the hedonic manifold (§11.5). The inverse-design problem of Chapter 13 (§13.4) — given a target flavor point, find the closest reachable blend of available ingredients — is a convex projection onto the set of feasible mixtures.</p>
+<h3 id="the-simplex">The simplex</h3>
+<p>The <strong>standard simplex</strong> in $n$ dimensions is the set of non-negative weights that sum to one:</p>
+<p>$$ \Delta^{n-1} = \Big\{ \mathbf{w} \in \mathbb{R}^n : w_i \ge 0, \; \sum_{i=1}^n w_i = 1 \Big\}. $$</p>
+<p>It is the convex hull of the $n$ unit basis vectors (its <strong>vertices</strong>), which are the pure components; its edges are two-component mixtures, its faces are three-component mixtures, and its interior holds blends that use every component. The simplex is the natural home of any quantity that represents <em>proportions</em>: probabilities, mixture fractions, or — in this book — the distribution of perceptual weight across taste qualities. Chapter 1 (§1.1) is explicit that the five cardinal tastes are &ldquo;not the coordinates of a cube but the vertices of a simplex&rdquo;: a ripe tomato is an interior point weighted toward umami and sweet, not a pure corner. The recipe-as-weighted-sum picture of Chapter 8 (§8.1), $\mathbf{f}_{\text{dish}} = \sum_i a_i \mathbf{f}_i$ with non-negative coefficients, lives on (a scaled version of) the simplex of ingredient proportions.</p>
+<p>The simplex also organizes the algorithmic side: the historical <strong>simplex method</strong> of linear programming walks vertex-to-vertex along the boundary of a polytope to optimize a linear objective. <strong>[Theorem.]</strong> A linear function on a bounded convex polytope attains its optimum at a vertex (the fundamental theorem of linear programming). We invoke this only conceptually — to note that boundary/corner solutions (a dish that maxes out one quality) are the linear-programming extreme, while balanced interior solutions require a curved or higher-order objective.</p>
+<h3 id="pareto-frontiers">Pareto frontiers</h3>
+<p>When two or more objectives conflict and cannot be reduced to a single number, the right notion of &ldquo;best&rdquo; is <strong>Pareto optimality</strong>. A point is <strong>Pareto optimal</strong> (or Pareto efficient) if no other feasible point is at least as good on every objective and strictly better on at least one — you cannot improve any objective without sacrificing another. The set of all such points is the <strong>Pareto frontier</strong>.</p>
+<p>This is the geometry of trade-offs without a forced exchange rate, and it is the spine of Chapter 11 (§11.2): the palatability–nutrition trade-off has no single &ldquo;correct&rdquo; weighting of taste against health, so the honest object is the frontier of diets that are not dominated — each a different, defensible balance. The same structure underlies the design trade-offs of Chapter 13 (mimicking beef flavor while respecting a plant-only ingredient set is a constrained multi-objective problem). The refusal to collapse incommensurable objectives into one scalar is a theme shared with <em>Geometric Economics</em> (Volume 4), where the Pareto frontier and the failure of monetary scalarization are developed at length.</p>
+<p><strong>Worked micro-example.</strong> A formulator balances two objectives for a low-sodium broth: maximize perceived savoriness $S$ and minimize sodium $N$. Four candidate formulations score as follows.</p>
+<table>
+<thead>
+<tr>
+<th>Formula</th>
+<th>Savoriness $S$ (higher better)</th>
+<th>Sodium $N$ (lower better)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>0.9</td>
+<td>0.9</td>
+</tr>
+<tr>
+<td>B</td>
+<td>0.7</td>
+<td>0.5</td>
+</tr>
+<tr>
+<td>C</td>
+<td>0.5</td>
+<td>0.3</td>
+</tr>
+<tr>
+<td>D</td>
+<td>0.4</td>
+<td>0.6</td>
+</tr>
+</tbody>
+</table>
+<p>Compare D and C: C is both more savory (0.5 &gt; 0.4) and lower sodium (0.3 &lt; 0.6), so <strong>C dominates D</strong> — D is off the frontier. Now compare A, B, C among themselves: A is the most savory but the saltiest; C is the least salty but least savory; B sits between. None of A, B, C dominates another (each wins on one objective), so <strong>{A, B, C} is the Pareto frontier</strong>. There is no formula-independent &ldquo;winner&rdquo;: choosing among A, B, C means choosing a slope of acceptable trade between salt and savor — exactly the metric choice that Chapter 11 argues must be made explicitly rather than smuggled in through a single palatability score.</p>
+<p><strong>Where this is used.</strong> Convexity and the simplex underlie Chapter 1 (§1.1, taste simplex), Chapter 8 (§8.1, recipes as weighted mixtures), and the constraint sets of Chapter 11 (§11.1) and Chapter 13 (§13.4, inverse design as convex projection). Pareto frontiers are the central object of Chapter 11 (§11.2–11.5, the palatability–nutrition trade-off and the geometric diet) and recur in the design trade-offs of Chapter 13.</p>
+<h2 id="a3-pca-and-dimensionality-reduction">A.3 PCA and Dimensionality Reduction</h2>
+<h3 id="the-problem-too-many-coordinates-few-real-directions">The problem: too many coordinates, few real directions</h3>
+<p>Real data often live in a space of nominally high dimension while actually clustering near a much lower-dimensional subspace. <strong>[Empirical.]</strong> Flavor is the book&rsquo;s leading case: the chemical description of a food runs to thousands of compound concentrations, the receptor layer compresses this to a few hundred channels (roughly 400 functional olfactory receptor types), and the <em>perceived</em> flavor varies along only a few tens of effectively independent directions (Chapter 1, §1.4; Chapter 2, §2.4). <strong>Dimensionality reduction</strong> is the family of techniques that recover those few real directions from the many measured ones. <strong>Principal Component Analysis (PCA)</strong> is the workhorse linear method.</p>
+<h3 id="pca-the-directions-of-maximum-variance">PCA: the directions of maximum variance</h3>
+<p>Given a dataset of points $\mathbf{x}_1, \dots, \mathbf{x}_m \in \mathbb{R}^n$ (say, $m$ recipes each described by $n$ compound concentrations), PCA proceeds as follows.</p>
+<ol>
+<li><strong>Center</strong> the data by subtracting the mean $\bar{\mathbf{x}}$, so the cloud is positioned around the origin.</li>
+<li>Form the <strong>covariance matrix</strong> $\Sigma = \frac{1}{m}\sum_i (\mathbf{x}_i - \bar{\mathbf{x}})(\mathbf{x}_i - \bar{\mathbf{x}})^\top$, an $n \times n$ symmetric matrix whose entry $\Sigma_{\mu\nu}$ measures how coordinates $\mu$ and $\nu$ vary together.</li>
+<li>Compute the <strong>eigenvectors</strong> $\mathbf{v}_1, \mathbf{v}_2, \dots$ and <strong>eigenvalues</strong> $\lambda_1 \ge \lambda_2 \ge \dots \ge 0$ of $\Sigma$. The eigenvectors are the <strong>principal components</strong> — orthogonal directions in the data space; the eigenvalue $\lambda_k$ is the <strong>variance</strong> captured along $\mathbf{v}_k$.</li>
+</ol>
+<p>The first principal component $\mathbf{v}_1$ is the single direction along which the data vary most; $\mathbf{v}_2$ is the most-variable direction orthogonal to $\mathbf{v}_1$, and so on. <strong>[Theorem.]</strong> Because the eigenvalues are sorted, keeping the first $k$ components retains as much variance as any $k$-dimensional linear projection can — equivalently, the rank-$k$ truncation is the best rank-$k$ approximation in Frobenius norm (the Eckart–Young theorem). The fraction of total variance explained by the first $k$ components is</p>
+<p>$$ \frac{\lambda_1 + \cdots + \lambda_k}{\lambda_1 + \cdots + \lambda_n}, $$</p>
+<p>and one chooses $k$ by demanding this fraction be high (often via a &ldquo;scree&rdquo; plot, where the eigenvalues drop sharply and then flatten). Projecting each data point onto the top $k$ eigenvectors yields a low-dimensional <strong>embedding</strong> that preserves the dominant structure while discarding small-variance noise directions.</p>
+<p>This is exactly the operation the book calls &ldquo;flavor PCA&rdquo; (Chapter 2, §2.4): the compression from thousands of compounds to ten to thirty perceptual dimensions is, to first approximation, projection onto the leading principal components of food-compound variation. The &ldquo;flavor eigenvectors of a cuisine&rdquo; in Chapter 9 (§9.2) are the principal components of a regional recipe distribution; signature ingredients (soy sauce for Japanese cuisine, cumin for Indian) appear as extreme loadings along particular components (§9.3).</p>
+<h3 id="relation-to-the-metric-and-to-nonlinear-reduction">Relation to the metric, and to nonlinear reduction</h3>
+<p>PCA is intimately tied to the metric tensor of §A.1. The covariance matrix $\Sigma$ and its inverse define the <strong>Mahalanobis distance</strong> $d(\mathbf{x},\mathbf{y}) = \sqrt{(\mathbf{x}-\mathbf{y})^\top \Sigma^{-1}(\mathbf{x}-\mathbf{y})}$, which is precisely a flat (constant) Riemannian metric whose $g_{\mu\nu}$ is $\Sigma^{-1}$. PCA can be read as finding the coordinate axes in which this metric is diagonal — decorrelating the dimensions. The book&rsquo;s curved flavor metric (Chapter 3) is the local, position-dependent generalization: PCA gives the <em>global average</em> geometry, while the Riemannian metric describes how that geometry deforms as one moves through $\mathcal{F}$.</p>
+<p>PCA is <strong>linear</strong>, and the olfactory manifold is curved (§A.1, Chapter 1 §1.2). When the low-dimensional structure is a curved sheet rather than a flat subspace, linear PCA must either keep extra components or distort distances. The book accordingly notes nonlinear successors — manifold-learning and embedding methods, and the &ldquo;Matryoshka&rdquo; nested-dimension compression of Chapter 10 (§10.4) — that recover curved low-dimensional structure. The same compression philosophy (&ldquo;how many dimensions do you actually need?&rdquo;) connects to the receptor compression of Chapter 2 and is shared with the embedding work of sibling Volume 6, <em>Geometric Cognition</em>.</p>
+<p><strong>Worked micro-example.</strong> Take three foods described by two crudely correlated coordinates, sweetness and perceived ripeness, after centering:</p>
+<p>$$ \mathbf{x}_1 = (-2, -1.8), \quad \mathbf{x}_2 = (0, 0.1), \quad \mathbf{x}_3 = (2, 1.7). $$</p>
+<p>The points lie almost along the line $y \approx x$ — sweetness and ripeness rise together. The covariance matrix is approximately</p>
+<p>$$ \Sigma \approx \begin{pmatrix} 2.67 & 2.33 \\ 2.33 & 2.04 \end{pmatrix}, $$</p>
+<p>whose leading eigenvector is close to $\mathbf{v}_1 \approx (0.76, 0.65)$ — the diagonal &ldquo;ripe-and-sweet&rdquo; direction — carrying essentially all the variance, while the orthogonal eigenvector $\mathbf{v}_2 \approx (-0.65, 0.76)$ carries almost none. PCA therefore reports that these &ldquo;two&rdquo; measured coordinates are really <strong>one</strong> perceptual dimension plus negligible noise: projecting onto $\mathbf{v}_1$ alone loses almost nothing. That is the toy version of the book&rsquo;s recurring finding — nominal flavor dimensions collapse to far fewer effective ones because the underlying biochemistry and perception are correlated (Chapter 2, §2.4).</p>
+<p><strong>Where this is used.</strong> PCA and dimensionality reduction are foundational to Chapter 2 (§2.4, perceptual compression to ten to thirty dimensions), Chapter 9 (§9.2–9.3, the principal components and signature directions of a cuisine), and Chapter 10 (§10.4, flavor compression and the Matryoshka method). The covariance/Mahalanobis connection links back to the metric of Chapter 3, and the pairing-dimension analysis of Chapter 5 (§5.5) is a PCA of human preference data. The reduction $10^4 \to 400 \to {\sim}30$ asserted in Chapter 1 (§1.2) is, layer by layer, a chain of such projections.</p>
+<h2 id="how-to-read-the-rest-of-the-book-with-these-tools">How to Read the Rest of the Book with These Tools</h2>
+<p>These three toolkits are not independent; they are three views of one idea. The metric tensor of §A.1 measures distance; the covariance matrix of §A.3 is a particular (flat) metric, and PCA is the search for coordinates in which it is diagonal; the convex geometry of §A.2 describes which regions of the space are feasible and which trade-offs are forced. A reader who holds all three in mind will see the book&rsquo;s main argument as a single move repeated in different settings: a problem that looks intractably high-dimensional and combinatorial — thousands of compounds, tens of thousands of ingredient combinations — is in truth low-dimensional, curved, and structured, and the right geometry makes it navigable.</p>
+<p>When the main text says a flavor is a point, a fix is a vector, a cuisine is a distribution, balance is a fixed point, and harmony is a manifold, every one of those claims cashes out in the definitions above. The mathematics is standard; what the book contributes is the recognition that flavor was always living inside it. The geometry was always real. The scalars — a single &ldquo;tastiness&rdquo; score, a flat list of ingredients — were always insufficient.</p>
+      </div>
+
+      <div class="chapter-nav-bottom">
+        <a href="index.html" class="nav-toc">&larr; Contents</a>
+      </div>
+    </div>
+  </article>
+
+  <footer class="book-footer">
+    <p>&copy; 2026 Andrew H. Bond. <em>Geometric Gastronomy: The Mathematical Structure of Flavor, Pairing, and Culinary Harmony.</em></p>
+    <p class="footer-note">The geometry was always real. The scalars were always insufficient.</p>
+  </footer>
+
+  <script src="../assets/js/series.js"></script>
+  <script>
+    window.addEventListener('scroll', function () {
+      document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 20);
+    });
+    document.querySelector('.nav-toggle')?.addEventListener('click', function () {
+      document.querySelector('.nav-links').classList.toggle('open');
+    });
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\\\(', right: '\\\\)', display: false},
+        {left: '\\\\[', right: '\\\\]', display: true}
+      ],
+      throwOnError: false
+    });"></script>
+</body>
+</html>

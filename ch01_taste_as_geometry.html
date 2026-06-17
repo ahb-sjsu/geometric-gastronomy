@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 1: Taste as Geometry &mdash; Geometric Gastronomy</title>
+  <meta name="description" content="Chapter 1: Taste as Geometry from Geometric Gastronomy: The Mathematical Structure of Flavor, Pairing, and Culinary Harmony, by Andrew H. Bond.">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../book/book.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+</head>
+
+<body data-book-slug="geometric-gastronomy">
+  <nav id="main-nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-brand">
+        <span class="brand-symbol">M</span>
+        <span class="brand-text">Geometric Gastronomy</span>
+      </a>
+      <button class="nav-toggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="series-nav-list"></ul>
+    </div>
+  </nav>
+
+  <article class="book-chapter">
+    <div class="chapter-container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="../index.html">Geometric Series</a>
+        <span class="breadcrumb-sep">&rsaquo;</span>
+        <a href="index.html">Geometric Gastronomy</a>
+        <span class="breadcrumb-sep">&rsaquo;</span>
+        <span class="breadcrumb-current">Chapter 1: Taste as Geometry</span>
+      </nav>
+
+      <div class="chapter-content">
+<h1 id="chapter-1-taste-as-geometry">Chapter 1: Taste as Geometry</h1>
+<blockquote>
+<p><em>&ldquo;Tell me what you eat, and I will tell you what you are.&rdquo;</em>
+— Jean Anthelme Brillat-Savarin, <em>The Physiology of Taste</em> (1825)</p>
+</blockquote>
+<hr />
+<blockquote>
+<p><strong>RUNNING EXAMPLE — THE LINE COOK&rsquo;S IMPOSSIBLE SEARCH</strong></p>
+<p><em>It is 7:40 p.m. and the tasting menu is one dish short. The chef hands her line cook a bowl of roasted parsnip purée and says: &ldquo;It&rsquo;s flat. Fix it.&rdquo; The cook tastes. The chef is right — it is flat. But flat in which direction? There are perhaps forty open containers within arm&rsquo;s reach: three vinegars, brown butter, miso, lime, smoked salt, toasted hazelnuts, a jus, sherry, maple, fish sauce, a dozen herbs. Naïvely, the cook faces a combinatorial wall: even choosing three additions from forty, in some order and proportion, is tens of thousands of possibilities, and there is no time to try them.</em></p>
+<p><em>And yet she does not panic, and she does not brute-force. She closes her eyes, tastes again, and reaches — not at random, but in a direction. The purée is sweet and round; it lacks brightness and lacks a savory floor. She adds lime (brightness) and a touch of miso (a savory floor), tastes, corrects with salt, and sends it. Ninety seconds. The combinatorial wall never existed for her, because she was not searching a list of forty ingredients. She was moving along a small number of axes — bright/dull, deep/shallow, sharp/round — in a space she has spent fifteen years learning to navigate.</em></p>
+<p><em>This book is about that space: what its coordinates are, how distance and direction are defined within it, how cooking moves through it, and why expertise is the ability to navigate it by feel. The cook&rsquo;s reach was not a lookup. It was a geodesic.</em></p>
+</blockquote>
+<hr />
+<h2 id="the-shape-of-the-problem">The Shape of the Problem</h2>
+<p>There is a number that haunts every honest account of food science, and it is a number about <em>size</em>. The chemical inventory of what we eat runs to more than ten thousand volatile aroma compounds and a comparable diversity of non-volatile tastants; the world&rsquo;s kitchens draw on something like ten thousand distinct ingredients; and a recipe combines several of these, in proportions, in an order, under transformations of heat and time. Treated as a combinatorial object, gastronomy is astronomically large. The number of three-ingredient combinations alone, drawn from ten thousand ingredients, exceeds $10^{11}$; allow four or five, allow proportion and sequence, and the count leaves the physical universe behind.</p>
+<p>If flavor were genuinely a combinatorial problem — a search over an unstructured list — then cooking would be impossible. No cook could learn it, no tradition could accumulate it, and no diner could anticipate it. The defining fact of gastronomy is that it is <em>not</em> impossible. Cooks improvise. Diners predict. Traditions converge, independently, on the same handful of moves. A combinatorial space that is nonetheless navigable, learnable, and convergent is not, in its deep structure, combinatorial at all. It has <em>geometry</em>.</p>
+<p>This book argues that flavor perception, ingredient pairing, recipe construction, and culinary tradition all exhibit geometric structure — and that this structure is not a metaphor but a working mathematics. A flavor is a vector. A pairing is an operation on vectors. Cooking is a continuous transformation of vectors. A cuisine is a probability distribution over a region of the space. Balance is a fixed point; harmony is a manifold; expertise is the learned metric that tells you which directions are near and which are far.</p>
+<p><strong>[Modeling Axiom.]</strong> We posit a <em>flavor space</em> $\mathcal{F}$: a finite-dimensional space in which every flavor experience corresponds to a point, every ingredient to a vector, and every culinary operation to a map $\mathcal{F} \to \mathcal{F}$. The claim of this chapter is the foundational one on which the rest depends — that such a space exists, that its dimensionality is modest (tens, not tens of thousands), and that its coordinates are supplied not by chemistry but by <em>perception</em>.</p>
+<p>That last point is the crux, and it is where every previous attempt at a &ldquo;map of flavor&rdquo; went wrong. The chemical description of a food — its full list of compounds and concentrations — lives in a space of ten thousand dimensions. The <em>perceived</em> flavor lives in a space perhaps thirty dimensions wide. The reduction from one to the other is performed by biology: by a few hundred receptor types and the neural machinery that reads them. To find the geometry of flavor, we must follow the biology, because the biology is the projection that turns an intractable chemical space into a navigable perceptual one. The combinatorial explosion is real in the chemistry and absent in the perception, and the gap between them is the first result of a geometric theory of taste.</p>
+<h2 id="11-the-five-cardinal-directions">1.1 The Five Cardinal Directions</h2>
+<p>Begin where the tongue begins. The gustatory system — taste proper, as distinct from the aroma we will reach in §1.2 — resolves chemical stimuli into a small number of qualities for which there is now strong receptor-level evidence: <strong>sweet</strong>, <strong>salty</strong>, <strong>sour</strong>, <strong>bitter</strong>, and <strong>umami</strong> (savory). Each corresponds to distinct transduction machinery: sweet and umami to T1R-family G-protein-coupled receptors, bitter to the ~25 T2R receptors, sour to proton-sensitive channels (OTOP1), and salty to epithelial sodium channels. Whatever else taste is, at the periphery it is at least five-dimensional, and these five are a natural first basis.</p>
+<p><strong>[Modeling Axiom.]</strong> Let the taste of a stimulus be a vector $\mathbf{t} = (t_{\text{sweet}}, t_{\text{salt}}, t_{\text{sour}}, t_{\text{bitter}}, t_{\text{umami}})$, each component the magnitude of the corresponding quality. These taste components are the corresponding entries of the full flavor vector $\mathbf{f}$ (§1.4), and are written $f_{\text{sweet}}$, $f_{\text{sour}}$, $f_{\text{umami}}$, and so on whenever we refer to them as part of that assembled vector. The five qualities are not the <em>coordinates of a cube</em> but the <em>vertices of a simplex</em>: a real stimulus distributes perceptual weight across them, and the experiences of interest live on the faces and interior, not at the pure corners. A ripe tomato is not &ldquo;umami&rdquo; the way a point is a coordinate; it is a location in the interior, weighted toward umami and sweet with a sour edge.</p>
+<p>The simplex picture matters because it immediately predicts structure that a list of five &ldquo;tastes&rdquo; does not. Mixtures interpolate: the line segment between the salt vertex and the umami vertex is the locus of stimuli that taste of both, and the well-documented synergy of salt and glutamate — a small amount of salt makes umami leap forward — means that this segment is not straight in perceptual terms. It bulges. We will make this precise in Chapter 3 as <em>curvature of the flavor metric</em>; for now, note only that the geometry is already non-trivial at five dimensions, and that the non-triviality corresponds to real, tasteable phenomena.</p>
+<p><strong>[Empirical.]</strong> The basis is not perfectly orthogonal, and this too is geometry. Sweetness suppresses bitterness (the reason tonic water carries sugar); sourness enhances the perception of saltiness at low concentrations; bitterness and sourness reinforce. These are off-diagonal interactions — the basis vectors are <em>correlated</em> in perception even though their receptors are distinct in biology. A faithful flavor space therefore cannot treat the five tastes as an orthonormal frame. It must carry a metric tensor whose off-diagonal entries encode exactly these cross-modal interactions. The taste simplex is the skeleton; the metric (Chapter 3) is the flesh.</p>
+<h2 id="12-the-olfactory-manifold">1.2 The Olfactory Manifold</h2>
+<p>If taste were the whole story, this would be a short book, because five dimensions are easy. But taste is the smaller half. The overwhelming majority of what we call &ldquo;flavor&rdquo; is <em>aroma</em>, delivered retronasally — the volatiles released in the mouth travel up the back of the throat to the olfactory epithelium. Pinch your nose and eat a jellybean: you get sweet and sour (taste) and almost nothing else; release, and the flavor — cherry, pear, buttered popcorn — floods in. The flavor was always in the nose.</p>
+<p>And the nose is high-dimensional. Humans express roughly <strong>400 functional olfactory receptor types</strong> (out of ~800 genes, many pseudogenes), each a GPCR tuned broadly to molecular features. This is the single most important number in the geometry of flavor, and it is worth dwelling on what it means. A single aroma molecule does not activate one receptor; it activates a <em>pattern</em> across many, with graded affinities. And a single receptor responds to many molecules. The relationship between molecules and receptors is therefore a dense bilinear map, not a lookup table — which is precisely the structure of a <em>distributed representation</em>, the same structure that lets a few hundred dimensions of a word embedding encode the meaning of hundreds of thousands of words.</p>
+<p><strong>[Empirical.]</strong> Malnic, Buck, and colleagues established the combinatorial code directly: each odorant is recognized by a unique <em>combination</em> of receptors, and each receptor participates in recognizing many odorants. The consequence is the central tension of olfactory geometry — a tension between two dimensionalities. The <em>input</em> space is enormous (ten thousand-plus volatiles). The <em>receptor</em> space is ~400. And the <em>perceptual</em> space — the number of independent directions a trained human can actually report and discriminate — is smaller still, on the order of tens. Each arrow in this chain $10^4 \to 400 \to \sim\!30$ is a projection, and each projection discards information. The art of a flavor theory is to track what survives.</p>
+<p>The &ldquo;curse of dimensionality&rdquo; usually names a problem; here it names an opportunity that biology has already seized. In a raw 400-dimensional receptor space, distances are nearly meaningless — almost everything is far from almost everything, and intuition fails. But olfactory percepts do not fill 400 dimensions uniformly. They lie close to a low-dimensional <strong>manifold</strong> curved within the receptor space, because the molecules of food are not random points in chemical space: they are the products of a limited set of biochemical pathways (the same fatty-acid, amino-acid, and terpene chemistries recur across the living world), and their co-occurrence is structured. The flavor of food occupies a thin, curved sheet inside the receptor space, and the perceptual dimensions are coordinates <em>on that sheet</em>. This is the olfactory manifold, and locating it — rather than the ambient receptor space — is what makes flavor tractable.</p>
+<h2 id="13-trigeminal-geometry">1.3 Trigeminal Geometry</h2>
+<p>Taste and aroma do not exhaust the experience. A third system, the <strong>trigeminal</strong>, reports the chemical-somatosensory qualities that no list of &ldquo;tastes&rdquo; includes and that no aroma captures: the heat of capsaicin, the cooling of menthol, the carbonation prickle of CO$_2$, the astringent pucker of tannins, the numbing tingle of Sichuan hydroxy-sanshool. These are mediated by their own receptor families — TRPV1 for heat, TRPM8 for cold — and they are, crucially, <em>orthogonal</em> to taste and aroma in the precise sense that they vary independently.</p>
+<p><strong>[Modeling Axiom.]</strong> We extend the flavor vector with trigeminal components that form their own subspace: $\mathbf{g} = (g_{\text{heat}}, g_{\text{cooling}}, g_{\text{astringency}}, g_{\text{tingle}}, \dots)$. Orthogonality here is an empirical claim with a geometric meaning: one can move along the heat axis (add chili) while holding taste and aroma fixed, and the perceptual result is a genuinely new location, not a re-weighting of existing tastes. The proof is in the kitchen — a cook adjusts heat as an independent control, the way a mixing engineer adjusts a frequency band without touching the others.</p>
+<p>The trigeminal subspace is where some of the most interesting geometry lives, because its axes interact with the others through <em>attention</em> rather than through chemistry. Capsaicin heat does not chemically alter sweetness, but it changes which dimensions you attend to, compressing the perceptual budget. A great deal of culinary craft — the balance of heat and sweetness in a Thai curry, the interplay of astringency and fat in a tannic wine with a fatty cheese — is the management of a perceptual system with finite attention spread across a handful of orthogonal somatosensory axes. We will treat attention formally as <em>projection onto a subspace</em> in Chapter 12.</p>
+<h2 id="14-the-full-flavor-vector">1.4 The Full Flavor Vector</h2>
+<p>We can now assemble the object the rest of the book will manipulate.</p>
+<p><strong>[Modeling Axiom.]</strong> The <em>flavor vector</em> of a stimulus is the concatenation
+$$ \mathbf{f} = (\,\underbrace{\mathbf{t}}_{\text{taste, }\sim 5},\ \underbrace{\mathbf{a}}_{\text{aroma, }\sim 10\text{–}30},\ \underbrace{\mathbf{g}}_{\text{trigeminal, }\sim 5},\ \underbrace{\mathbf{x}}_{\text{texture/temperature}}\,) \ \in\ \mathcal{F}. $$
+Taste contributes its five-dimensional simplex; aroma contributes the coordinates of the olfactory manifold (a few tens of dimensions, far fewer than 400); the trigeminal subspace contributes its handful of somatosensory axes; and a final block carries texture and temperature, which are not &ldquo;flavor&rdquo; in the narrow sense but are inseparable from it in experience (the same volatiles read as different flavors hot and cold). The total dimensionality of $\mathcal{F}$ is on the order of a few tens — small enough to navigate, large enough to be rich.</p>
+<p>Two features of this construction will recur throughout the book. First, $\mathcal{F}$ is a <em>perceptual</em> space, not a chemical one: its dimensions are directions of perceptual variation, recovered by dimensionality reduction from receptor responses, not columns in a chemistry table. Second, $\mathbf{f}$ is not static. A real flavor <em>unfolds in time</em> — the top notes, middle, and base of the perfumer&rsquo;s vocabulary apply equally to a slow-cooked stew — so the honest object is not a point but a <em>curve</em> $\mathbf{f}(\tau)$ traced through $\mathcal{F}$ as the dish is eaten. We will hold the static picture for most of the book and return to the temporal curve as one of the deepest open problems in Chapter 14. For now: a flavor is a point in a space of a few tens of dimensions, and that space has the structure we will spend the next chapters mapping.</p>
+<h2 id="15-why-the-early-maps-failed">1.5 Why the Early Maps Failed</h2>
+<p>The ambition of a geometric map of flavor is old, and its early failures are instructive — each failed in the same way, and the way it failed is itself a theorem about dimensionality.</p>
+<p><strong>[Empirical.]</strong> In 1916 Hans Henning proposed the <strong>taste tetrahedron</strong>: the four &ldquo;classical&rdquo; tastes (sweet, sour, salty, bitter) as the vertices of a tetrahedron, with real tastes located on its surface. It was a genuine geometric model, and it was wrong in two diagnosable ways. It omitted umami (not characterized until Ikeda&rsquo;s work was absorbed by Western science decades later), so its basis was incomplete; and it placed tastes only on the <em>surface</em>, denying the interior where mixtures live. Henning&rsquo;s instinct — that taste qualities span a space and real tastes are locations within it — was exactly right. His execution failed because four dimensions are too few and a surface is not a volume.</p>
+<p>In 1927 Crocker and Henderson proposed a four-digit odor classification, scoring each odor on four putative primaries (fragrant, acid, burnt, caprylic). This too was a low-dimensional embedding of olfaction, and it too failed — but now the failure is sharper and more revealing. Four dimensions cannot embed the olfactory manifold. We saw in §1.2 that the perceptual space of aroma is on the order of tens of dimensions, curved within a 400-dimensional receptor space. Any attempt to force it into four coordinates must collapse distinct odors onto the same point and tear apart odors that belong together — the unavoidable distortion of projecting a high-dimensional manifold into a space too small to hold it.</p>
+<p>This is the lesson that organizes the book. <strong>The early maps did not fail because flavor lacks geometry; they failed because they used too few dimensions and the wrong coordinates.</strong> They guessed the axes from intuition (sweet, &ldquo;fragrant&rdquo;) rather than recovering them from the receptor responses that actually generate perception. The modern tools — receptor-level recordings, large flavor-compound databases, and the embedding techniques that compress distributed representations without destroying their structure — let us do what Henning and Crocker could not: find the <em>right</em> number of dimensions, and find them from the data rather than from the armchair. A geometric theory of flavor was always the correct idea. It simply had to wait for the dimensionality to be measured rather than assumed.</p>
+<blockquote>
+<p><strong>THE LINE COOK, REVISITED — A FIX AS A VECTOR</strong></p>
+<p><em>Return to the flat parsnip purée. We can now say precisely what the cook did, and why it was fast. She did not search a list of forty ingredients; she located the dish as a point $\mathbf{f}_0 \in \mathcal{F}$ and felt where it was deficient — low on the sour/bright taste component and low on the umami floor, $f_{\text{sour}} \approx 0$ and $f_{\text{umami}} \approx 0$, with $f_{\text{sweet}}$ already high. The target $\mathbf{f}^\star$ — a balanced purée — sits a short distance away in a known direction. Lime is a vector pushing mainly along $+f_{\text{sour}}$ (with an aroma component); miso pushes along $+f_{\text{umami}}$ (with its own aroma and a little salt). Adding a measured amount of each is vector addition: $\mathbf{f}_0 + \alpha\,\mathbf{v}_{\text{lime}} + \beta\,\mathbf{v}_{\text{miso}} \approx \mathbf{f}^\star$. The final salt correction nudged the result back onto the balance manifold (Chapter 6) after the additions overshot.</em></p>
+<p><em>She solved a two-parameter problem — find $\alpha$ and $\beta$ — in a space of a few tens of dimensions, not a forty-thousand-element combinatorial search. That collapse, from an intractable list to a short move along two axes, is the whole argument of this book in ninety seconds of service.</em></p>
+</blockquote>
+<h2 id="what-this-book-will-show">What This Book Will Show</h2>
+<p>The remainder of this volume develops the consequences of taking $\mathcal{F}$ seriously. Chapter 2 follows the biology that builds the coordinate system — receptors as linear functionals, the binding-affinity matrix as a bilinear map, and the compression from ten thousand compounds to a few tens of perceptual dimensions. Chapter 3 equips $\mathcal{F}$ with a <em>metric</em> — a notion of distance that is logarithmic (Weber–Fechner), curved (Stevens), and locally variable, so that &ldquo;how far apart&rdquo; two flavors are becomes a precise and tasteable quantity. Part II turns to pairing, where similarity and complementarity become geometric operations and the celebrated food-pairing hypothesis becomes a statement about cosine similarity. Part III treats cooking as transformation — the Maillard reaction as a nonlinear map, a recipe as a non-commuting product of operations, a cuisine as the principal components of a regional distribution. Part IV connects the theory to computational gastronomy and modern flavor embeddings, and Part V to design, nutrition, and the open problems that a geometry of flavor has yet to solve.</p>
+<p>Through all of it, one claim is load-bearing, and it is the claim of this chapter: the combinatorial explosion of food is an illusion of the wrong coordinates. Choose perceptual coordinates, count the dimensions honestly, and the wall the line cook never hit dissolves into a space — modest in size, rich in structure, and navigable, like all geometry, by anyone who learns its directions.</p>
+      </div>
+
+      <div class="chapter-nav-bottom">
+        <a href="index.html" class="nav-toc">&larr; Contents</a>
+      </div>
+    </div>
+  </article>
+
+  <footer class="book-footer">
+    <p>&copy; 2026 Andrew H. Bond. <em>Geometric Gastronomy: The Mathematical Structure of Flavor, Pairing, and Culinary Harmony.</em></p>
+    <p class="footer-note">The geometry was always real. The scalars were always insufficient.</p>
+  </footer>
+
+  <script src="../assets/js/series.js"></script>
+  <script>
+    window.addEventListener('scroll', function () {
+      document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 20);
+    });
+    document.querySelector('.nav-toggle')?.addEventListener('click', function () {
+      document.querySelector('.nav-links').classList.toggle('open');
+    });
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\\\(', right: '\\\\)', display: false},
+        {left: '\\\\[', right: '\\\\]', display: true}
+      ],
+      throwOnError: false
+    });"></script>
+</body>
+</html>

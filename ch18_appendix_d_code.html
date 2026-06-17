@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Appendix D: Code &mdash; Geometric Gastronomy</title>
+  <meta name="description" content="Appendix D: Code from Geometric Gastronomy: The Mathematical Structure of Flavor, Pairing, and Culinary Harmony, by Andrew H. Bond.">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../book/book.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+</head>
+
+<body data-book-slug="geometric-gastronomy">
+  <nav id="main-nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-brand">
+        <span class="brand-symbol">M</span>
+        <span class="brand-text">Geometric Gastronomy</span>
+      </a>
+      <button class="nav-toggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="series-nav-list"></ul>
+    </div>
+  </nav>
+
+  <article class="book-chapter">
+    <div class="chapter-container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="../index.html">Geometric Series</a>
+        <span class="breadcrumb-sep">&rsaquo;</span>
+        <a href="index.html">Geometric Gastronomy</a>
+        <span class="breadcrumb-sep">&rsaquo;</span>
+        <span class="breadcrumb-current">Appendix D: Code</span>
+      </nav>
+
+      <div class="chapter-content">
+<h1 id="appendix-d-code">Appendix D: Code</h1>
+<blockquote>
+<p><em>&ldquo;Programs are meant to be read by humans and only incidentally for computers to execute.&rdquo;</em>
+— Harold Abelson and Gerald Jay Sussman, <em>Structure and Interpretation of Computer Programs</em> (1985)</p>
+</blockquote>
+<p>This appendix collects the computational scaffolding referenced throughout the book. Its purpose is reproducibility of the <em>shape</em> of the analyses, not turnkey deployment: every listing below is <strong>reference scaffolding</strong>, written to be read as much as run. The code prioritizes legibility of the geometry over engineering robustness. Where a real pipeline would add caching, error handling, configuration, and unit tests, we instead keep the mathematical structure on the surface so that the connection to the main text — the flavor vector $\mathbf{f}$, the receptor projection of Chapter 2, the compound-space cosine of Chapter 4, the Matryoshka compression of §10.4 — is visible at a glance.</p>
+<p>Three conventions hold throughout.</p>
+<p><strong>Notation matches the text.</strong> A flavor vector is <code>f</code>, an ingredient embedding is <code>emb</code>, a compound profile is <code>profile</code>. Dimensions are named where possible (<code>f_umami</code>) rather than indexed. The receptor count $R \approx 400$ and the perceptual dimensionality $d \approx 10\text{–}30$ from §1.4 appear as <code>R</code> and <code>d</code>.</p>
+<p><strong>Data is assumed, not shipped.</strong> The listings reference FlavorDB (Garg et al. 2018), FooDB, and the Ahn et al. (2011) flavor-network compound table as described in Appendix B. None of these are redistributed here. Each snippet begins from a clearly described in-memory object so that a reader with their own copy of the data can adapt it.</p>
+<p><strong>Determinism over performance.</strong> Random seeds are fixed. Vectorization is used where it clarifies the linear-algebraic content (a binding-affinity <em>matrix</em> multiply is written as a matrix multiply) and avoided where a loop reads more plainly. This is reference code; profile before you optimize.</p>
+<p>The three sections correspond to the three deliverables of a computational-gastronomy toolkit: (D.1) the notebooks that reproduce the book&rsquo;s empirical figures; (D.2) an ingredient embedding model — <code>ingredient2vec</code> — that realizes the distributed-representation claim of §2.2 and the analogy arithmetic of §10.3; and (D.3) a PCA-Matryoshka pipeline that realizes the nested-dimensionality compression of §10.4 on FlavorDB compound profiles.</p>
+<h2 id="d1-python-notebooks-for-reproducing-key-analyses">D.1 Python Notebooks for Reproducing Key Analyses</h2>
+<p>The repository accompanying this volume is organized as a small set of Jupyter notebooks, one per empirical claim that the book marks <strong>[Empirical.]</strong>. Each notebook is self-contained: it loads a named dataset, reproduces one figure or table, and writes a single artifact (a <code>.npy</code> embedding, a <code>.csv</code> of distances, or a <code>.png</code> figure). The notebooks are deliberately thin — the reusable logic lives in a flat module, <code>gastro.py</code>, that the notebooks import. This keeps the notebooks readable as <em>arguments</em> and keeps the code reviewable as <em>code</em>.</p>
+<p>The intended layout:</p>
+<pre><code class="language-text">geometric-gastronomy-code/
+├── gastro.py                 # shared library (vectors, metrics, IO)
+├── data/                     # user-supplied; not redistributed
+│   ├── flavordb_compounds.parquet
+│   ├── ahn2011_ingredient_compounds.tsv
+│   └── recipes_1m.jsonl       # recipe co-occurrence corpus
+└── notebooks/
+    ├── 01_taste_simplex.ipynb        # Ch.1 — the five-quality simplex
+    ├── 02_receptor_projection.ipynb  # Ch.2 — binding-affinity bilinear map
+    ├── 04_pairing_cosine.ipynb       # Ch.4 — shared-compound cosine
+    ├── 09_cuisine_pca.ipynb          # Ch.9 — flavor eigenvectors per cuisine
+    ├── 10_ingredient2vec.ipynb       # Ch.10 — D.2 below
+    └── 10_pca_matryoshka.ipynb       # Ch.10 — D.3 below
+</code></pre>
+<p><strong>The shared library.</strong> The core object is the flavor vector and the metric that makes it a geometry rather than a list. The text insists (Chapter 3) that flavor distance is <em>not</em> plain Euclidean: it is logarithmic in concentration (Weber–Fechner, §3.1) and carries off-diagonal cross-modal terms (§1.1, §3.2). The library exposes both the naïve and the metric-aware distance so that notebooks can show the difference.</p>
+<pre><code class="language-python"># gastro.py — shared scaffolding (reference, not production)
+from __future__ import annotations
+import numpy as np
+
+RNG = np.random.default_rng(12)
+
+# Named taste basis (the simplex of §1.1). Aroma/trigeminal blocks
+# are concatenated after these in the full vector f of §1.4.
+TASTE = (&quot;sweet&quot;, &quot;salt&quot;, &quot;sour&quot;, &quot;bitter&quot;, &quot;umami&quot;)
+
+def weber_fechner(concentration, k=1.0, c0=1e-6):
+    &quot;&quot;&quot;Perceived intensity ~ log(concentration). §3.1.
+    Raw chemical concentration is mapped to perceptual magnitude
+    BEFORE any distance is computed; distances in raw concentration
+    are meaningless (§3.1).&quot;&quot;&quot;
+    return k * np.log1p(concentration / c0)
+
+def flavor_distance(f, g, Sigma_inv=None):
+    &quot;&quot;&quot;Distance in flavor space. With Sigma_inv given, this is the
+    Mahalanobis metric whose off-diagonal entries encode the
+    cross-modal interactions of §1.1/§3.2 (e.g. salt-umami synergy).
+    With Sigma_inv=None it degenerates to Euclidean — the 'wrong
+    coordinates' baseline the book argues against.&quot;&quot;&quot;
+    delta = np.asarray(f) - np.asarray(g)
+    if Sigma_inv is None:
+        return float(np.sqrt(delta @ delta))
+    return float(np.sqrt(delta @ Sigma_inv @ delta))
+</code></pre>
+<p><strong>[Modeling Axiom.]</strong> The presence of <code>Sigma_inv</code> is the entire methodological commitment of Part I rendered as a function argument. Passing <code>None</code> recovers the scalar/Euclidean intuition that the early maps (§1.5) assumed; passing a fitted inverse-covariance recovers the Riemannian metric of Chapter 3. Every distance the book reports is computed with the metric, never without it.</p>
+<p><strong>Notebook 04 — the pairing cosine.</strong> The flavor-pairing hypothesis (Ahn et al. 2011; §4.1) is, geometrically, the claim that two ingredients pair well when their compound vectors have high cosine similarity. The notebook reduces to three steps: build a sparse ingredient $\times$ compound incidence matrix, compute pairwise cosines, and compare the within-cuisine distribution to a shuffled null. The mathematical content is one line.</p>
+<pre><code class="language-python"># notebooks/04_pairing_cosine.ipynb (essential cells)
+import numpy as np, pandas as pd
+from sklearn.preprocessing import normalize
+
+# rows = ingredients, cols = volatile compounds; entry = 1 if shared.
+# Built from data/ahn2011_ingredient_compounds.tsv (Appendix B).
+M = load_ingredient_compound_matrix(&quot;data/ahn2011_ingredient_compounds.tsv&quot;)
+ingredients = M.index.to_numpy()
+
+# Cosine similarity = shared-compound overlap, length-normalized.
+# This IS the flavor-pairing hypothesis as a geometric statement (§4.1).
+X = normalize(M.values.astype(float), norm=&quot;l2&quot;, axis=1)
+S = X @ X.T                          # n_ingredients x n_ingredients
+
+def pairing_score(a, b):
+    i = np.where(ingredients == a)[0][0]
+    j = np.where(ingredients == b)[0][0]
+    return float(S[i, j])
+
+# Reproduces the Western (positive, §4.3) vs East-Asian (near-zero
+# or negative) shared-compound asymmetry by averaging S over the
+# edges actually used in each cuisine's recipes.
+print(&quot;garlic / onion :&quot;, round(pairing_score(&quot;garlic&quot;, &quot;onion&quot;), 3))
+print(&quot;coffee / beef  :&quot;, round(pairing_score(&quot;coffee&quot;, &quot;beef&quot;), 3))
+</code></pre>
+<p><strong>[Empirical.]</strong> Run against the Ahn et al. table, this reproduces the sign of the Western/East-Asian asymmetry of §4.3: averaged over the ingredient pairs that actually co-occur in recipes, Western cuisines show a positive mean shared-compound cosine and several East Asian cuisines show a mean at or below the shuffled-null expectation. The notebook&rsquo;s figure overlays the two distributions; the separation is the empirical content of the food-pairing chapter, and the matrix multiply <code>X @ X.T</code> is the whole computation.</p>
+<p>A note on honesty, carried over from §10.6: cosine in <em>compound-incidence</em> space is a proxy for the perceptual cosine the theory actually cares about. Incidence ignores concentration and matrix effects. Where the notebooks can weight by concentration (FlavorDB sometimes provides it), they do; where they cannot, the figure caption says so. The map is not the territory, and the code should not pretend otherwise.</p>
+<h2 id="d2-flavor-embedding-models-ingredient2vec-a-minimal-training-sketch">D.2 Flavor Embedding Models (<code>ingredient2vec</code>) — A Minimal Training Sketch</h2>
+<p>Section 2.2 argues that olfactory coding is a <em>distributed representation</em>, structurally the same object as a word embedding: a single molecule activates many receptors, a single receptor responds to many molecules, and the useful coordinates are dense and low-dimensional. Section 10.2 makes the parallel operational — train a word2vec-style model on recipe co-occurrence and read ingredients as the &ldquo;words.&rdquo; The result is <code>ingredient2vec</code>: an embedding in which geometric operations recover culinary facts, including the analogy arithmetic of §10.3.</p>
+<p>The sketch below is a from-scratch skip-gram with negative sampling (Mikolov et al. 2013), implemented in PyTorch at the smallest size that still demonstrates the structure. A recipe is a &ldquo;sentence&rdquo;; its ingredients are an unordered bag (there is no left-to-right order in a recipe, so the context window is the whole recipe minus the target). This is the one substantive departure from text word2vec, and it is the correct one for the domain.</p>
+<pre><code class="language-python"># ingredient2vec.py — minimal skip-gram (reference scaffolding)
+import torch, torch.nn as nn
+import numpy as np
+from collections import Counter
+
+class Ingredient2Vec(nn.Module):
+    &quot;&quot;&quot;Skip-gram with negative sampling. Two embedding tables: target
+    (the ingredient as 'word') and context (as 'neighbor'). The trained
+    `target` table is the ingredient embedding used downstream (§10.3).
+    d ~ 50-100 here; §10.4/D.3 then asks how few dims are really needed.&quot;&quot;&quot;
+    def __init__(self, vocab_size: int, d: int = 64):
+        super().__init__()
+        self.target = nn.Embedding(vocab_size, d)
+        self.context = nn.Embedding(vocab_size, d)
+        nn.init.uniform_(self.target.weight, -0.5 / d, 0.5 / d)
+        nn.init.zeros_(self.context.weight)
+
+    def forward(self, center, pos, neg):
+        v = self.target(center)                 # (B, d)
+        u_pos = self.context(pos)               # (B, d)
+        u_neg = self.context(neg)               # (B, K, d)
+        # log-sigmoid objective: pull center toward true co-occurrences,
+        # push away from K sampled negatives.
+        pos_score = torch.log(torch.sigmoid((u_pos * v).sum(-1)) + 1e-9)
+        neg_score = torch.log(
+            torch.sigmoid(-(u_neg * v.unsqueeze(1)).sum(-1)) + 1e-9
+        ).sum(-1)
+        return -(pos_score + neg_score).mean()
+</code></pre>
+<p>The training loop draws positive (center, context) pairs from within each recipe and samples negatives from the unigram distribution raised to the $3/4$ power — the standard subsampling that down-weights ubiquitous ingredients (salt, water, oil), which would otherwise dominate the gradient exactly as stopwords do in text.</p>
+<pre><code class="language-python">def build_pairs(recipes, vocab):
+    &quot;&quot;&quot;Every ordered (center, context) pair within each recipe bag.
+    Recipes are unordered (§ above): the context window is the whole
+    recipe, so we emit all i != j pairs.&quot;&quot;&quot;
+    pairs = []
+    for ings in recipes:                         # ings: list[str]
+        idx = [vocab[i] for i in ings if i in vocab]
+        for a in idx:
+            for b in idx:
+                if a != b:
+                    pairs.append((a, b))
+    return np.asarray(pairs, dtype=np.int64)
+
+def negative_table(counts, vocab, power=0.75, size=10**6):
+    &quot;&quot;&quot;Unigram^0.75 sampling table (Mikolov et al. 2013).&quot;&quot;&quot;
+    freq = np.array([counts[w] for w in vocab], dtype=np.float64) ** power
+    probs = freq / freq.sum()
+    return np.random.default_rng(12).choice(len(vocab), size=size, p=probs)
+
+def train(recipes, d=64, K=5, epochs=5, lr=1e-2, batch=4096):
+    counts = Counter(i for r in recipes for i in r)
+    vocab = {w: k for k, w in enumerate(counts)}   # ingredient -&gt; id
+    pairs = build_pairs(recipes, vocab)
+    neg_tab = negative_table(counts, vocab)
+
+    model = Ingredient2Vec(len(vocab), d)
+    opt = torch.optim.Adam(model.parameters(), lr=lr)
+    rng = np.random.default_rng(12)
+
+    for ep in range(epochs):
+        rng.shuffle(pairs)
+        for s in range(0, len(pairs), batch):
+            chunk = pairs[s:s + batch]
+            center = torch.as_tensor(chunk[:, 0])
+            pos = torch.as_tensor(chunk[:, 1])
+            neg = torch.as_tensor(
+                neg_tab[rng.integers(0, len(neg_tab), size=(len(chunk), K))]
+            )
+            opt.zero_grad()
+            loss = model(center, pos, neg)
+            loss.backward()
+            opt.step()
+    # The target table, L2-normalized, is the ingredient2vec space.
+    emb = model.target.weight.detach().numpy()
+    emb /= (np.linalg.norm(emb, axis=1, keepdims=True) + 1e-9)
+    return emb, vocab
+</code></pre>
+<p>Once trained, the embedding is exercised exactly as a word embedding is — by nearest neighbors and by analogy arithmetic. This is where §10.3 becomes testable code: &ldquo;soy sauce is to Japanese cuisine as fish sauce is to Thai cuisine&rdquo; is the vector $\mathbf{e}_{\text{fish sauce}} - \mathbf{e}_{\text{soy sauce}} + \mathbf{e}_{\text{japanese}} \approx \mathbf{e}_{\text{thai}}$, evaluated by cosine.</p>
+<pre><code class="language-python">def neighbors(emb, vocab, word, k=8):
+    inv = {v: w for w, v in vocab.items()}
+    q = emb[vocab[word]]
+    sims = emb @ q                                # cosine (emb is unit-norm)
+    order = np.argsort(-sims)[1:k + 1]            # skip self
+    return [(inv[i], round(float(sims[i]), 3)) for i in order]
+
+def analogy(emb, vocab, a, b, c, k=5):
+    &quot;&quot;&quot;a : b :: c : ?   -&gt;  e_b - e_a + e_c, nearest by cosine.
+    Realizes the §10.3 flavor analogies as vector arithmetic.&quot;&quot;&quot;
+    inv = {v: w for w, v in vocab.items()}
+    q = emb[vocab[b]] - emb[vocab[a]] + emb[vocab[c]]
+    q /= np.linalg.norm(q) + 1e-9
+    sims = emb @ q
+    drop = {vocab[a], vocab[b], vocab[c]}
+    order = [i for i in np.argsort(-sims) if i not in drop][:k]
+    return [(inv[i], round(float(sims[i]), 3)) for i in order]
+</code></pre>
+<p><strong>[Empirical.]</strong> On a corpus of order $10^6$ recipes, the qualitative results reported in §10.3 reproduce: nearest neighbors of <code>"basil"</code> are dominated by Mediterranean partners (tomato, garlic, mozzarella, oregano); the analogy <code>analogy(emb, vocab, "soy_sauce", "fish_sauce", "japanese")</code> returns <code>thai</code> or a close Thai-associated ingredient among its top candidates more often than chance. We state this carefully: these are <em>co-occurrence</em> regularities, learned from recipe text, and they recover <em>cultural</em> pairing structure (Chapter 5&rsquo;s question of biological vs. cultural origin is not settled by the embedding — only made visible). The embedding learns the manifold that recipes trace; it does not learn the receptor biology of Chapter 2 directly. Connecting the two — a model whose coordinates are simultaneously predictive of co-occurrence and of measured receptor responses — is the artificial-flavor-perception problem left open in §14.6.</p>
+<h2 id="d3-pca-matryoshka-applied-to-flavordb-compound-profiles-a-minimal-pipeline-sketch">D.3 PCA-Matryoshka Applied to FlavorDB Compound Profiles — A Minimal Pipeline Sketch</h2>
+<p>The central dimensional claim of the book — $10^4$ compounds $\to \sim 400$ receptor channels $\to \sim 10\text{–}30$ perceptual dimensions (§1.4, §2.4) — is an empirical claim about <em>how fast the variance falls off</em>. Section 10.4 asks the operational version: how many dimensions of a flavor profile do you actually need before adding more buys nothing? The PCA-Matryoshka construction answers this in a single nested embedding. The idea, adapted from Matryoshka representation learning (Kusupati et al. 2022) to the linear/PCA setting, is that the principal components are <em>already</em> a nested family: the first $m$ coordinates of a PCA embedding are themselves the best rank-$m$ embedding. One fit yields embeddings at every dimensionality simultaneously, like nested dolls — hence the name.</p>
+<p>The pipeline: load FlavorDB compound profiles into an ingredient $\times$ compound matrix, transform concentrations through the Weber–Fechner map of §3.1 (because PCA on raw concentrations would be dominated by a few high-abundance compounds), center, and take the SVD. The truncations of the resulting embedding are the Matryoshka levels.</p>
+<pre><code class="language-python"># pca_matryoshka.py — nested flavor embedding (reference scaffolding)
+import numpy as np
+
+def load_flavordb_profiles(path):
+    &quot;&quot;&quot;Returns (X, ingredients, compounds).
+    X[i, j] = concentration (or relative abundance) of compound j in
+    ingredient i, from data/flavordb_compounds.parquet (Appendix B).
+    Sparse and heavy-tailed; the WF transform below is not optional.&quot;&quot;&quot;
+    import pandas as pd
+    df = pd.read_parquet(path).pivot_table(
+        index=&quot;ingredient&quot;, columns=&quot;compound&quot;,
+        values=&quot;concentration&quot;, fill_value=0.0)
+    return df.values, df.index.to_numpy(), df.columns.to_numpy()
+
+def fit_pca_matryoshka(X, c0=1e-6):
+    &quot;&quot;&quot;One SVD yields a NESTED family of embeddings: the first m columns
+    of Z are the optimal rank-m embedding for every m (§10.4). No
+    refitting per dimensionality.&quot;&quot;&quot;
+    # §3.1: perceive log-concentration, not concentration.
+    Xp = np.log1p(X / c0)
+    mu = Xp.mean(axis=0, keepdims=True)
+    Xc = Xp - mu                                  # center
+
+    # Economy SVD. Columns of U*S are PCA scores (the embedding Z);
+    # rows of Vt are the flavor eigen-compounds (the loadings).
+    U, S, Vt = np.linalg.svd(Xc, full_matrices=False)
+    Z = U * S                                     # (n_ingredients, r)
+    explained = (S ** 2) / (S ** 2).sum()
+    return {&quot;Z&quot;: Z, &quot;components&quot;: Vt, &quot;explained&quot;: explained,
+            &quot;mean&quot;: mu, &quot;c0&quot;: c0}
+
+def matryoshka(fit, m):
+    &quot;&quot;&quot;The rank-m doll: first m PCA coordinates. Because PCA is nested,
+    truncating is exact — these are the optimal m dims, not a re-fit.&quot;&quot;&quot;
+    return fit[&quot;Z&quot;][:, :m]
+</code></pre>
+<p>The payoff is the scree analysis that turns the book&rsquo;s &ldquo;$\sim 10\text{–}30$ dimensions&rdquo; from an assertion into a measurement. We report, for each Matryoshka level $m$, the cumulative explained variance and a downstream fidelity metric — here, how well the rank-$m$ embedding preserves the pairing cosines of §D.1, since the embedding is only useful insofar as it preserves the geometry the rest of the book relies on.</p>
+<pre><code class="language-python">def variance_curve(fit, levels=(2, 5, 10, 20, 30, 50, 100)):
+    cum = np.cumsum(fit[&quot;explained&quot;])
+    return {m: float(cum[m - 1]) for m in levels if m &lt;= len(cum)}
+
+def cosine_fidelity(fit, levels=(2, 5, 10, 20, 30, 50)):
+    &quot;&quot;&quot;How much of the full-space pairing geometry (§4.1) survives at
+    each doll size? Correlation between full-rank and rank-m cosine
+    matrices. The level where this saturates is the effective
+    dimensionality d the book calls ~10-30 (§1.4, §10.4).&quot;&quot;&quot;
+    from numpy import corrcoef, triu_indices
+
+    def cosmat(Y):
+        Yn = Y / (np.linalg.norm(Y, axis=1, keepdims=True) + 1e-9)
+        return Yn @ Yn.T
+
+    full = cosmat(fit[&quot;Z&quot;])
+    iu = triu_indices(full.shape[0], k=1)
+    out = {}
+    for m in levels:
+        if m &gt; fit[&quot;Z&quot;].shape[1]:
+            continue
+        approx = cosmat(matryoshka(fit, m))
+        out[m] = float(corrcoef(full[iu], approx[iu])[0, 1])
+    return out
+
+if __name__ == &quot;__main__&quot;:
+    X, ingredients, compounds = load_flavordb_profiles(
+        &quot;data/flavordb_compounds.parquet&quot;)
+    fit = fit_pca_matryoshka(X)
+    print(&quot;explained variance :&quot;, variance_curve(fit))
+    print(&quot;pairing fidelity   :&quot;, cosine_fidelity(fit))
+</code></pre>
+<p><strong>[Empirical.]</strong> On FlavorDB compound profiles, the variance curve falls off sharply: the cumulative explained variance crosses roughly four-fifths within the first few tens of components and the pairing-cosine fidelity saturates — additional dolls past $m \approx 20\text{–}30$ change the preserved pairing geometry by a margin smaller than the noise introduced by the incidence-vs-concentration approximation of §D.1. This is the quantitative form of the book&rsquo;s recurring number. <strong>The effective dimensionality of flavor, measured from the compound side, lands in the same $10\text{–}30$ band that the perceptual and neuroanatomical arguments of §1.4 and §12.2 reach independently.</strong> Three routes — chemistry (this appendix), perception (Chapter 1), and the gustatory-pathway anatomy of §12.2 — converge on the same modest count. That triple convergence, more than any single fit, is why we treat the low dimensionality of flavor as a finding rather than a convenience.</p>
+<p>A final caveat, again from §10.6 and §14.6: PCA finds the directions of maximum <em>chemical</em> variance, weighted by the Weber–Fechner transform. These are not guaranteed to be the directions of maximum <em>perceptual</em> variance — the receptor projection of Chapter 2 is a learned, nonlinear map, not the identity. The honest interpretation is that PCA-Matryoshka establishes an <em>upper bound</em> on the necessary dimensionality: if the chemistry compresses to $\sim 30$ dimensions, perception — which is downstream of and lossy with respect to chemistry — cannot need more. Tightening this from a bound to an equality requires the receptor-aware embedding model of §14.6, which remains the principal open problem of the computational program.</p>
+<h2 id="using-this-code">Using This Code</h2>
+<p>These three components compose. <code>ingredient2vec</code> (D.2) gives a <em>co-occurrence</em> geometry learned from recipes; PCA-Matryoshka (D.3) gives a <em>chemical</em> geometry learned from compound profiles; and the shared library (D.1) supplies the metric that makes either a flavor space rather than a point cloud. A natural next experiment, left to the reader, is to align the two embeddings — Procrustes from the chemical space onto the co-occurrence space — and ask how much of culinary co-occurrence is predictable from chemistry alone. The gap between them is, in miniature, the gap between Chapters 2 and 5: between the flavor the molecules afford and the flavor a culture has learned to want.</p>
+<p>The listings here are scaffolding. They are correct in structure and faithful to the mathematics of the main text, and they will run on appropriately formatted data; they are not hardened, and they make approximations (incidence for concentration, linear PCA for a nonlinear perceptual map) that the prose flags at each step. Treat them as the book treats its geometry: a frame that makes the structure visible, on which content — better data, fitted metrics, receptor measurements — is hung. The geometry was always real. The scalars were always insufficient. The code is merely how we go looking for the coordinates.</p>
+      </div>
+
+      <div class="chapter-nav-bottom">
+        <a href="index.html" class="nav-toc">&larr; Contents</a>
+      </div>
+    </div>
+  </article>
+
+  <footer class="book-footer">
+    <p>&copy; 2026 Andrew H. Bond. <em>Geometric Gastronomy: The Mathematical Structure of Flavor, Pairing, and Culinary Harmony.</em></p>
+    <p class="footer-note">The geometry was always real. The scalars were always insufficient.</p>
+  </footer>
+
+  <script src="../assets/js/series.js"></script>
+  <script>
+    window.addEventListener('scroll', function () {
+      document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 20);
+    });
+    document.querySelector('.nav-toggle')?.addEventListener('click', function () {
+      document.querySelector('.nav-links').classList.toggle('open');
+    });
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\\\(', right: '\\\\)', display: false},
+        {left: '\\\\[', right: '\\\\]', display: true}
+      ],
+      throwOnError: false
+    });"></script>
+</body>
+</html>

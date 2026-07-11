@@ -20,7 +20,7 @@ Flavor perception, ingredient pairing, recipe construction, and culinary traditi
 
 ## Status
 
-Outline stage. See `OUTLINE.md` for the chapter plan (5 parts, 14 chapters).
+Draft. See `OUTLINE.md` for the chapter plan (5 parts, 14 chapters).
 
 ## Series map
 
@@ -72,12 +72,12 @@ flowchart TB
 | [Geometric Economics](https://github.com/ahb-sjsu/geometric-economics) | Draft |
 | [Geometric Law](https://github.com/ahb-sjsu/geometric-law) | Draft |
 | [Geometric Cognition](https://github.com/ahb-sjsu/geometric-cognition) | Draft |
-| [Geometric Communication](https://github.com/ahb-sjsu/geometric-communication) | Outline |
-| [Geometric Medicine](https://github.com/ahb-sjsu/geometric-medicine) | Outline |
-| [Geometric Education](https://github.com/ahb-sjsu/geometric-education) | Outline |
-| [Geometric Politics](https://github.com/ahb-sjsu/geometric-politics) | Outline |
-| [Geometric AI](https://github.com/ahb-sjsu/geometric-ai) | Outline |
-| **Geometric Gastronomy: The Mathematical Structure of Flavor, Pairing, and Culinary Harmony** | **Outline** |
+| [Geometric Communication](https://github.com/ahb-sjsu/geometric-communication) | Draft |
+| [Geometric Medicine](https://github.com/ahb-sjsu/geometric-medicine) | Draft |
+| [Geometric Education](https://github.com/ahb-sjsu/geometric-education) | Draft |
+| [Geometric Politics](https://github.com/ahb-sjsu/geometric-politics) | Draft |
+| [Geometric AI](https://github.com/ahb-sjsu/geometric-ai) | Draft |
+| **Geometric Gastronomy: The Mathematical Structure of Flavor, Pairing, and Culinary Harmony** | **Draft** |
 | [Geometric Aesthetics](https://github.com/ahb-sjsu/geometric-aesthetics) | Paper complete, book drafting |
 
 ## Acknowledgments

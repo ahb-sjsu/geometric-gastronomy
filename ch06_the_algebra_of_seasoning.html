@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Chapter 6: The Algebra of Seasoning &mdash; Geometric Gastronomy</title>
   <meta name="description" content="Chapter 6: The Algebra of Seasoning from Geometric Gastronomy: The Mathematical Structure of Flavor, Pairing, and Culinary Harmony, by Andrew H. Bond.">
+  <meta name="generator" content="geometric-series build kit">
   <link rel="stylesheet" href="../assets/css/style.css">
   <link rel="stylesheet" href="../book/book.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,7 +14,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 </head>
 
-<body data-book-slug="geometric-gastronomy">
+<body data-book-slug="geometric-gastronomy" data-chapter-id="ch06_the_algebra_of_seasoning">
   <nav id="main-nav">
     <div class="nav-inner">
       <a href="../index.html" class="nav-brand">
@@ -36,6 +37,11 @@
         <span class="breadcrumb-sep">&rsaquo;</span>
         <span class="breadcrumb-current">Chapter 6: The Algebra of Seasoning</span>
       </nav>
+      <div class="chapter-nav-top">
+        <a href="ch05_the_pairing_manifold.html" class="nav-prev">&larr; Chapter 5: The Pairing Manifold</a>
+        <a href="index.html" class="nav-toc">Contents</a>
+        <a href="ch07_transformations_under_heat.html" class="nav-next">Chapter 7: Transformations Under Heat &rarr;</a>
+      </div>
 
       <div class="chapter-content">
 <h1 id="chapter-6-the-algebra-of-seasoning">Chapter 6: The Algebra of Seasoning</h1>
@@ -60,7 +66,7 @@
 <h2 id="61-salt-as-amplification">6.1 Salt as Amplification</h2>
 <p>Salt is the operator everyone meets first, and it is the simplest one geometrically: to a good first approximation, <strong>salt scales the savory magnitude of the vector without rotating it</strong>. A correctly salted dish does not taste <em>of salt</em>; it tastes <em>more of itself</em>. This is the universal report — &ldquo;it brings out the flavor&rdquo; — and it is precisely the description of a positive scalar multiplying a vector. The direction is preserved; the length grows.</p>
 <p><strong>[Modeling Axiom.]</strong> Let $P_{\text{sav}}$ be the projection onto the savory subspace of $\mathcal{F}$ — chiefly the umami and salty taste components together with the aroma directions they gate. Salt acts as
-$$ T_{\text{salt}}(\mathbf{f}) \;=\; \mathbf{f} + (\lambda - 1)\, P_{\text{sav}}\,\mathbf{f}, \qquad \lambda > 1, $$
+$$ T_{\text{salt}}(\mathbf{f}) \;=\; \mathbf{f} + (\lambda - 1)\, P_{\text{sav}}\,\mathbf{f}, \qquad \lambda &gt; 1, $$
 a stretch by factor $\lambda$ along the savory directions the dish already occupies, leaving the orthogonal complement fixed. Because the operator multiplies the component the vector already has, it cannot manufacture a savory direction from nothing — salt on water is salt water, not soup — which is exactly why salt amplifies a dish that already has a savory floor — Marcus&rsquo;s braise has floor to spare — while salting something genuinely empty merely makes it saline. The braise also shows the operator near its bound: with the savory component already long from reduction, the useful $\lambda$ is barely above one, a few grains rather than a few pinches, lest a larger stretch tip the vector toward the salt vertex.</p>
 <p>The amplification is not metaphorical. <strong>[Empirical.]</strong> Sodium ions suppress bitterness directly and disproportionately, and they potentiate the perception of glutamate: the salt–umami synergy that Chapter 1 flagged as a <em>bulge</em> in the taste simplex is, from the seasoning side, the reason a pinch of salt makes a tomato or a broth &ldquo;louder.&rdquo; The suppression of bitterness is itself an amplification in disguise — removing a competing component lengthens the projection onto everything else. Beauchamp and colleagues documented the bitterness-masking effect quantitatively; the glutamate potentiation is the better-known half of the same coin.</p>
 <p>Two features of the operator deserve emphasis. First, $\lambda$ is bounded: push it too far and the salty taste component itself dominates, the dish rotates <em>toward</em> the salt vertex of the simplex, and the no-rotation approximation fails. Over-salting is not &ldquo;too much amplification&rdquo; but the breakdown of the linear regime — the operator stops being a clean scaling and becomes a translation toward a corner. Second, salt&rsquo;s scaling is one of the few culinary operations that is very nearly <em>commutative</em> with the others over a useful range, which is why &ldquo;salt early and salt late&rdquo; is sound advice and why salt appears first in Nosrat&rsquo;s ordering: an operator that mostly commutes can be applied at any stage without spoiling the sequence. We return to commutation in §6.5.</p>
@@ -112,7 +118,9 @@ $$ H(\mathbf{f}^\star) \;\geq\; H\big(T_\delta(\mathbf{f}^\star)\big), \qquad \n
       </div>
 
       <div class="chapter-nav-bottom">
-        <a href="index.html" class="nav-toc">&larr; Contents</a>
+        <a href="ch05_the_pairing_manifold.html" class="nav-prev">&larr; Chapter 5: The Pairing Manifold</a>
+        <a href="index.html" class="nav-toc">Contents</a>
+        <a href="ch07_transformations_under_heat.html" class="nav-next">Chapter 7: Transformations Under Heat &rarr;</a>
       </div>
     </div>
   </article>
@@ -140,6 +148,7 @@ $$ H(\mathbf{f}^\star) \;\geq\; H\big(T_\delta(\mathbf{f}^\star)\big), \qquad \n
         {left: '\\\\(', right: '\\\\)', display: false},
         {left: '\\\\[', right: '\\\\]', display: true}
       ],
+      ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
       throwOnError: false
     });"></script>
 </body>

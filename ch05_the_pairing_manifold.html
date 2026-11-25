@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Chapter 5: The Pairing Manifold &mdash; Geometric Gastronomy</title>
   <meta name="description" content="Chapter 5: The Pairing Manifold from Geometric Gastronomy: The Mathematical Structure of Flavor, Pairing, and Culinary Harmony, by Andrew H. Bond.">
+  <meta name="generator" content="geometric-series build kit">
   <link rel="stylesheet" href="../assets/css/style.css">
   <link rel="stylesheet" href="../book/book.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,7 +14,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 </head>
 
-<body data-book-slug="geometric-gastronomy">
+<body data-book-slug="geometric-gastronomy" data-chapter-id="ch05_the_pairing_manifold">
   <nav id="main-nav">
     <div class="nav-inner">
       <a href="../index.html" class="nav-brand">
@@ -36,6 +37,11 @@
         <span class="breadcrumb-sep">&rsaquo;</span>
         <span class="breadcrumb-current">Chapter 5: The Pairing Manifold</span>
       </nav>
+      <div class="chapter-nav-top">
+        <a href="ch04_similarity_and_complementarity.html" class="nav-prev">&larr; Chapter 4: Similarity and Complementarity</a>
+        <a href="index.html" class="nav-toc">Contents</a>
+        <a href="ch06_the_algebra_of_seasoning.html" class="nav-next">Chapter 6: The Algebra of Seasoning &rarr;</a>
+      </div>
 
       <div class="chapter-content">
 <h1 id="chapter-5-the-pairing-manifold">Chapter 5: The Pairing Manifold</h1>
@@ -54,7 +60,7 @@
 <h2 id="the-subspace-of-the-pleasant">The Subspace of the Pleasant</h2>
 <p>Chapter 4 gave us the <em>operations</em> of pairing: a combination is, to first approximation, a sum of flavor vectors, $\mathbf{f}_{\text{pair}} = \mathbf{f}_1 + \mathbf{f}_2$, and similarity is the cosine between the vectors being summed. But it left a question hanging. Knowing how two flavors combine tells us <em>where</em> the combination lands in flavor space $\mathcal{F}$; it does not tell us whether we will <em>like</em> where it lands. The food-pairing hypothesis predicts that shared-compound pairings are common in Western cuisine, and they are — but commonness is not goodness, and Chapter 4&rsquo;s own data showed East Asian cuisines pairing <em>against</em> the similarity grain. Similarity is a description of structure, not a verdict of value.</p>
 <p>The verdict of value is a separate object with its own shape. Of all the points reachable in $\mathcal{F}$ by combining real ingredients, only a thin region is experienced as pleasant; most of $\mathcal{F}$ is empty, incoherent, or actively unpleasant, and the dishes humans actually enjoy cluster on a low-dimensional sheet curved through the ambient space. We call this sheet the <strong>hedonic manifold</strong>, $\mathcal{H} \subset \mathcal{F}$, and the central claim of this chapter is that it is a real, learnable, low-dimensional geometric object — and that the great puzzles of pairing (the uncanny valley, the triumph of the unexpected, the cultural variation of taste) are all statements about its shape.</p>
-<p><strong>[Modeling Axiom.]</strong> There exists a hedonic function $H : \mathcal{F} \to \mathbb{R}$ assigning to each flavor point a scalar pleasantness, and the <em>hedonic manifold</em> $\mathcal{H}$ is its high-value region — the set $\{\mathbf{f} : H(\mathbf{f}) > \theta\}$ for some threshold $\theta$, or more usefully its ridge, the locus where $H$ is locally maximal across the directions transverse to it. Pairing is the problem of choosing $\mathbf{f}_1, \mathbf{f}_2$ so that their sum lands on $\mathcal{H}$.</p>
+<p><strong>[Modeling Axiom.]</strong> There exists a hedonic function $H : \mathcal{F} \to \mathbb{R}$ assigning to each flavor point a scalar pleasantness, and the <em>hedonic manifold</em> $\mathcal{H}$ is its high-value region — the set $\{\mathbf{f} : H(\mathbf{f}) &gt; \theta\}$ for some threshold $\theta$, or more usefully its ridge, the locus where $H$ is locally maximal across the directions transverse to it. Pairing is the problem of choosing $\mathbf{f}_1, \mathbf{f}_2$ so that their sum lands on $\mathcal{H}$.</p>
 <p>Note what this reframing does to Concord&rsquo;s failure. Concord optimized similarity, a property of the <em>summands</em>; but pleasantness is a property of the <em>sum&rsquo;s location</em> relative to $\mathcal{H}$. Strawberry-plus-tomato has high summand similarity yet sums into the valley of §5.3; blue-cheese-plus-honey has near-zero summand similarity yet sums squarely onto a peak of $\mathcal{H}$. The two metrics measure different things, and conflating them is the original sin of naïve computational pairing. The rest of this chapter develops $\mathcal{H}$ rigorously enough that the difference becomes calculable.</p>
 <h2 id="51-the-hedonic-manifold">5.1 The Hedonic Manifold</h2>
 <p>Begin with the bare existence claim. If pleasant combinations filled $\mathcal{F}$ uniformly, cooking would again be the combinatorial nightmare of Chapter 1: every new pairing a coin-flip, no transfer of skill, no traditions converging. The opposite is observed. Across the roughly $10^{11}$ three-ingredient combinations available to a kitchen, the proportion any panel rates as pleasant is minute, and — crucially — the pleasant ones are <em>clustered</em>, not scattered. Knowing that A+B works and B+C works lets you predict A+C far better than chance, and predictability of this kind is the signature of low intrinsic dimension: the pleasant points lie near a sheet whose local tangent you can estimate from neighbors.</p>
@@ -114,7 +120,9 @@ $$</p>
       </div>
 
       <div class="chapter-nav-bottom">
-        <a href="index.html" class="nav-toc">&larr; Contents</a>
+        <a href="ch04_similarity_and_complementarity.html" class="nav-prev">&larr; Chapter 4: Similarity and Complementarity</a>
+        <a href="index.html" class="nav-toc">Contents</a>
+        <a href="ch06_the_algebra_of_seasoning.html" class="nav-next">Chapter 6: The Algebra of Seasoning &rarr;</a>
       </div>
     </div>
   </article>
@@ -142,6 +150,7 @@ $$</p>
         {left: '\\\\(', right: '\\\\)', display: false},
         {left: '\\\\[', right: '\\\\]', display: true}
       ],
+      ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
       throwOnError: false
     });"></script>
 </body>

@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Appendix B: Flavor Compound Databases &mdash; Geometric Gastronomy</title>
   <meta name="description" content="Appendix B: Flavor Compound Databases from Geometric Gastronomy: The Mathematical Structure of Flavor, Pairing, and Culinary Harmony, by Andrew H. Bond.">
+  <meta name="generator" content="geometric-series build kit">
   <link rel="stylesheet" href="../assets/css/style.css">
   <link rel="stylesheet" href="../book/book.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,7 +14,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 </head>
 
-<body data-book-slug="geometric-gastronomy">
+<body data-book-slug="geometric-gastronomy" data-chapter-id="ch16_appendix_b_flavor_compound_databases">
   <nav id="main-nav">
     <div class="nav-inner">
       <a href="../index.html" class="nav-brand">
@@ -36,6 +37,11 @@
         <span class="breadcrumb-sep">&rsaquo;</span>
         <span class="breadcrumb-current">Appendix B: Flavor Compound Databases</span>
       </nav>
+      <div class="chapter-nav-top">
+        <a href="ch15_appendix_a_mathematical_preliminaries.html" class="nav-prev">&larr; Appendix A: Mathematical Preliminaries</a>
+        <a href="index.html" class="nav-toc">Contents</a>
+        <a href="ch17_appendix_c_experimental_methods.html" class="nav-next">Appendix C: Experimental Methods &rarr;</a>
+      </div>
 
       <div class="chapter-content">
 <h1 id="appendix-b-flavor-compound-databases">Appendix B: Flavor Compound Databases</h1>
@@ -140,7 +146,7 @@ is the <strong>compound vector</strong> of ingredient $i$. In the presence/absen
 <p>The geometry is only as honest as the matrix, and $A$ has four structural distortions that every downstream result inherits.</p>
 <p><strong>Presence/absence is not concentration.</strong> A binary $A_{ij}$ says strawberry &ldquo;contains&rdquo; furaneol and &ldquo;contains&rdquo; some trace ester at equal weight $1$, though one defines the fruit and the other is a rounding error. Cosine similarity (Chapter 4) computed on binary vectors therefore measures <em>chemical overlap of inventories</em>, not <em>perceptual similarity of flavor</em> — a fact that explains both the successes and the failures of the food-pairing hypothesis. When concentrations exist, use them; when they do not, be explicit that you are computing an inventory-overlap statistic.</p>
 <p><strong>Missing data is not zero.</strong> A null in the <code>contains</code> table almost always means &ldquo;not measured in this food,&rdquo; not &ldquo;measured and absent.&rdquo; Zero-filling — the default behavior of every pivot operation — fabricates absence. This biases $A$ toward whatever foods have been studied most (tomato, coffee, wine, and strawberry are exhaustively profiled; most ingredients are not), an instance of the reporting bias Chapter 4 (§4.7) flags when reanalyzing Ahn&rsquo;s network.</p>
-<p><strong>Detection threshold $\neq$ perceptual threshold.</strong> GC-MS (Appendix C) detects compounds far below the concentration at which a human could smell them, and conversely a compound near or below its <strong>odor detection threshold</strong> contributes nothing to perceived aroma regardless of how it weights the vector. The chemically correct vector and the perceptually correct vector differ by exactly this threshold nonlinearity. The principled fix is to weight each component not by raw concentration $A_{ij}$ but by its <strong>odor activity value</strong> $\text{OAV}_{ij} = A_{ij} / \theta_j$, where $\theta_j$ is compound $j$&rsquo;s odor threshold; components with $\text{OAV} < 1$ are perceptually silent. This is the first, crudest step of Chapter 1&rsquo;s projection from chemistry toward perception.</p>
+<p><strong>Detection threshold $\neq$ perceptual threshold.</strong> GC-MS (Appendix C) detects compounds far below the concentration at which a human could smell them, and conversely a compound near or below its <strong>odor detection threshold</strong> contributes nothing to perceived aroma regardless of how it weights the vector. The chemically correct vector and the perceptually correct vector differ by exactly this threshold nonlinearity. The principled fix is to weight each component not by raw concentration $A_{ij}$ but by its <strong>odor activity value</strong> $\text{OAV}_{ij} = A_{ij} / \theta_j$, where $\theta_j$ is compound $j$&rsquo;s odor threshold; components with $\text{OAV} &lt; 1$ are perceptually silent. This is the first, crudest step of Chapter 1&rsquo;s projection from chemistry toward perception.</p>
 <p><strong>Matrix effects and nonlinearity.</strong> Even OAV-weighting is linear, and perception is not: suppression, synergy, and the nonlinear summation that Chapter 1 (§1.1) called the curvature of the flavor metric all mean that $\mathbf{f}_i$ is a <em>curved</em> function of $\mathbf{c}_i$, not a linear readout. The databases give $\mathbf{c}_i$; recovering $\mathbf{f}_i$ requires the receptor model of Chapter 2 and the metric of Chapter 3. <strong>The compound vector is where geometry starts, not where it ends.</strong></p>
 <h2 id="b3-worked-construction-a-compound-vector-for-strawberry">B.3 Worked Construction: A Compound Vector for Strawberry</h2>
 <p>To make the pipeline concrete, we construct the compound vector for <strong>strawberry</strong> (<em>Fragaria × ananassa</em>) — a deliberately easy case, because strawberry is among the most exhaustively profiled foods in all three databases and its aroma chemistry is genuinely understood.</p>
@@ -164,14 +170,16 @@ The result is a vector in which a handful of components dominate. <strong>[Empir
 <li><strong>Use FlavorDB as the bipartite backbone</strong>, FooDB for breadth and concentrations, and VCF (where licensed) for authoritative aroma validation. Treat none of them as complete.</li>
 <li><strong>Join on InChIKey</strong>, fall back to PubChem CID, and treat name-based joins as a manual-review-only last resort.</li>
 <li><strong>Never zero-fill missing concentrations.</strong> Distinguish &ldquo;absent,&rdquo; &ldquo;present but unquantified,&rdquo; and &ldquo;quantified&rdquo; as three explicit strata.</li>
-<li><strong>Weight by odor activity value, not raw concentration</strong>, whenever thresholds are available; components with $\text{OAV} < 1$ are perceptually silent and should be down-weighted toward zero.</li>
+<li><strong>Weight by odor activity value, not raw concentration</strong>, whenever thresholds are available; components with $\text{OAV} &lt; 1$ are perceptually silent and should be down-weighted toward zero.</li>
 <li><strong>State plainly which space you are in.</strong> A result computed on compound vectors is a statement about chemistry; promoting it to a statement about perception requires the machinery of Chapters 2 and 3, and the promotion should be argued, not assumed.</li>
 </ul>
 <p>The databases are the empirical floor on which the geometry of this book stands. They are partial, biased toward well-studied foods, and quantitatively uneven — and they are nonetheless enough, handled honestly, to recover the structure the rest of the volume describes. The geometry was always in the chemistry. The databases are how we finally get to count it.</p>
       </div>
 
       <div class="chapter-nav-bottom">
-        <a href="index.html" class="nav-toc">&larr; Contents</a>
+        <a href="ch15_appendix_a_mathematical_preliminaries.html" class="nav-prev">&larr; Appendix A: Mathematical Preliminaries</a>
+        <a href="index.html" class="nav-toc">Contents</a>
+        <a href="ch17_appendix_c_experimental_methods.html" class="nav-next">Appendix C: Experimental Methods &rarr;</a>
       </div>
     </div>
   </article>
@@ -199,6 +207,7 @@ The result is a vector in which a handful of components dominate. <strong>[Empir
         {left: '\\\\(', right: '\\\\)', display: false},
         {left: '\\\\[', right: '\\\\]', display: true}
       ],
+      ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
       throwOnError: false
     });"></script>
 </body>

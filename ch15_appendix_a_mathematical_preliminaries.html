@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Appendix A: Mathematical Preliminaries &mdash; Geometric Gastronomy</title>
   <meta name="description" content="Appendix A: Mathematical Preliminaries from Geometric Gastronomy: The Mathematical Structure of Flavor, Pairing, and Culinary Harmony, by Andrew H. Bond.">
+  <meta name="generator" content="geometric-series build kit">
   <link rel="stylesheet" href="../assets/css/style.css">
   <link rel="stylesheet" href="../book/book.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,7 +14,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 </head>
 
-<body data-book-slug="geometric-gastronomy">
+<body data-book-slug="geometric-gastronomy" data-chapter-id="ch15_appendix_a_mathematical_preliminaries">
   <nav id="main-nav">
     <div class="nav-inner">
       <a href="../index.html" class="nav-brand">
@@ -36,6 +37,11 @@
         <span class="breadcrumb-sep">&rsaquo;</span>
         <span class="breadcrumb-current">Appendix A: Mathematical Preliminaries</span>
       </nav>
+      <div class="chapter-nav-top">
+        <a href="ch14_open_problems.html" class="nav-prev">&larr; Chapter 14: Open Problems</a>
+        <a href="index.html" class="nav-toc">Contents</a>
+        <a href="ch16_appendix_b_flavor_compound_databases.html" class="nav-next">Appendix B: Flavor Compound Databases &rarr;</a>
+      </div>
 
       <div class="chapter-content">
 <h1 id="appendix-a-mathematical-preliminaries">Appendix A: Mathematical Preliminaries</h1>
@@ -68,7 +74,7 @@
 <p>where $\dot{\gamma}$ is the velocity along the curve. A <strong>geodesic</strong> is a locally length-minimizing curve — the manifold&rsquo;s notion of a straight line. On a flat plane, geodesics are ordinary straight lines; on a sphere, they are great-circle arcs (which is why long-haul flight paths bow toward the poles). Geodesics satisfy a second-order differential equation, the geodesic equation, whose coefficients (the Christoffel symbols) are built from derivatives of the metric; one does not need the equation to use the concept, only the idea that the shortest path between two flavors bends according to the local metric.</p>
 <p>This is the precise content of the book&rsquo;s recurring claim that <strong>expertise is the ability to follow geodesics</strong>. The line cook of Chapter 1 does not search a list; she moves along the short, metric-respecting path from the flat purée $\mathbf{f}_0$ to the balanced target $\mathbf{f}^\star$. Because the metric is curved, the efficient correction is not &ldquo;equal parts of everything&rdquo; but a direction weighted by the local $g_{\mu\nu}$ — which is what years of training encode.</p>
 <p><strong>Worked micro-example.</strong> Consider a tiny two-dimensional flavor patch with coordinates $(x^1, x^2) = (\text{salt}, \text{umami})$ and a constant metric</p>
-<p>$$ g = \begin{pmatrix} 1 & 0.6 \\ 0.6 & 1 \end{pmatrix}. $$</p>
+<p>$$ g = \begin{pmatrix} 1 &amp; 0.6 \\ 0.6 &amp; 1 \end{pmatrix}. $$</p>
 <p>The positive off-diagonal $0.6$ encodes salt–umami synergy: the axes are correlated. Take a displacement of one unit along each axis, $d\mathbf{x} = (1, 1)$. Under the Euclidean metric (identity matrix) its squared length would be $1^2 + 1^2 = 2$. Under $g$,</p>
 <p>$$ ds^2 = 1\cdot 1^2 + 2\,(0.6)(1)(1) + 1\cdot 1^2 = 2 + 1.2 = 3.2, $$</p>
 <p>so $ds \approx 1.79$. Moving along the <em>joint</em> salt-and-umami direction covers more perceptual ground than the Euclidean count suggests — a small pinch of salt makes the glutamate &ldquo;leap forward,&rdquo; and the metric records that the two moves reinforce. Had we instead moved along $d\mathbf{x} = (1, -1)$ (more salt, less umami), we would get $ds^2 = 2 - 1.2 = 0.8$, a <em>shorter</em> perceptual step: trading one savory axis against the other partly cancels. The same Euclidean displacement, two different perceptual lengths — that is curvature doing tasteable work.</p>
@@ -141,7 +147,7 @@
 <p><strong>Worked micro-example.</strong> Take three foods described by two crudely correlated coordinates, sweetness and perceived ripeness, after centering:</p>
 <p>$$ \mathbf{x}_1 = (-2, -1.8), \quad \mathbf{x}_2 = (0, 0.1), \quad \mathbf{x}_3 = (2, 1.7). $$</p>
 <p>The points lie almost along the line $y \approx x$ — sweetness and ripeness rise together. The covariance matrix is approximately</p>
-<p>$$ \Sigma \approx \begin{pmatrix} 2.67 & 2.33 \\ 2.33 & 2.04 \end{pmatrix}, $$</p>
+<p>$$ \Sigma \approx \begin{pmatrix} 2.67 &amp; 2.33 \\ 2.33 &amp; 2.04 \end{pmatrix}, $$</p>
 <p>whose leading eigenvector is close to $\mathbf{v}_1 \approx (0.76, 0.65)$ — the diagonal &ldquo;ripe-and-sweet&rdquo; direction — carrying essentially all the variance, while the orthogonal eigenvector $\mathbf{v}_2 \approx (-0.65, 0.76)$ carries almost none. PCA therefore reports that these &ldquo;two&rdquo; measured coordinates are really <strong>one</strong> perceptual dimension plus negligible noise: projecting onto $\mathbf{v}_1$ alone loses almost nothing. That is the toy version of the book&rsquo;s recurring finding — nominal flavor dimensions collapse to far fewer effective ones because the underlying biochemistry and perception are correlated (Chapter 2, §2.4).</p>
 <p><strong>Where this is used.</strong> PCA and dimensionality reduction are foundational to Chapter 2 (§2.4, perceptual compression to ten to thirty dimensions), Chapter 9 (§9.2–9.3, the principal components and signature directions of a cuisine), and Chapter 10 (§10.4, flavor compression and the Matryoshka method). The covariance/Mahalanobis connection links back to the metric of Chapter 3, and the pairing-dimension analysis of Chapter 5 (§5.5) is a PCA of human preference data. The reduction $10^4 \to 400 \to {\sim}30$ asserted in Chapter 1 (§1.2) is, layer by layer, a chain of such projections.</p>
 <h2 id="how-to-read-the-rest-of-the-book-with-these-tools">How to Read the Rest of the Book with These Tools</h2>
@@ -150,7 +156,9 @@
       </div>
 
       <div class="chapter-nav-bottom">
-        <a href="index.html" class="nav-toc">&larr; Contents</a>
+        <a href="ch14_open_problems.html" class="nav-prev">&larr; Chapter 14: Open Problems</a>
+        <a href="index.html" class="nav-toc">Contents</a>
+        <a href="ch16_appendix_b_flavor_compound_databases.html" class="nav-next">Appendix B: Flavor Compound Databases &rarr;</a>
       </div>
     </div>
   </article>
@@ -178,6 +186,7 @@
         {left: '\\\\(', right: '\\\\)', display: false},
         {left: '\\\\[', right: '\\\\]', display: true}
       ],
+      ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
       throwOnError: false
     });"></script>
 </body>

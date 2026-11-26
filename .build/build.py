@@ -51,6 +51,8 @@ SERIES_TAGLINE = "The geometry was always real. The scalars were always insuffic
 #   source_dirs   directories (relative to repo root) searched for `glob`
 #   glob          filename glob within each source dir
 #   exclude       optional list of filename patterns to skip (fnmatch)
+#   contents_note optional markdown shown under the contents list, e.g. to say which
+#                 chapters the online edition holds back
 #   parts         optional list of (part_title, [file-stem, ...]) groups for the
 #                 contents page. Stems not listed in any part fall into a final
 #                 "Appendices" group if they start with "appendix", otherwise
@@ -105,8 +107,10 @@ signal ($\\rho \\approx 0.70$ on Hellinger and Mahalanobis features across six
 language families) and a **cross-modality sign flip**: the same geometric
 feature that rewards continuity in books ($\\rho{=}{+}0.126$, $8.4\\sigma$)
 punishes it in music ($\\rho{=}{-}0.076$, $p{=}5\\times10^{-33}$). Books reward
-coherence; music rewards contrast. The aesthetic geometry has directionality
-that is modality-specific, and that directionality is measurable.
+coherence; music rewards contrast. The aesthetic geometry may have directionality
+that is modality-specific; whether the flip belongs to the works or to the encoders
+has not been ruled out (Chapter 12), and the book-length theory around these
+results is posited.
 """
 
 BOOK_CONFIGS: dict[str, dict] = {
@@ -141,22 +145,22 @@ BOOK_CONFIGS: dict[str, dict] = {
     "geometric-reasoning": {
         "number": 3, "title": "Geometric Reasoning",
         "subtitle": "From Search to Manifolds",
-        "source_dirs": ["chapters"], "glob": "*.md",
+        "source_dirs": ["chapters", "appendices"], "glob": "*.md",
     },
     "geometric-economics": {
         "number": 4, "title": "Geometric Economics",
         "subtitle": "Decision Manifolds, Equilibria, and the Geometry of Markets",
-        "source_dirs": ["chapters"], "glob": "*.md",
+        "source_dirs": ["chapters", "appendices"], "glob": "*.md",
     },
     "geometric-law": {
         "number": 5, "title": "Geometric Law",
         "subtitle": "Symmetry, Invariance, and the Structure of Legal Reasoning",
-        "source_dirs": ["chapters"], "glob": "*.md",
+        "source_dirs": ["chapters", "appendices"], "glob": "*.md",
     },
     "geometric-cognition": {
         "number": 6, "title": "Geometric Cognition",
         "subtitle": "The Mathematical Structure of Human and Artificial Thought",
-        "source_dirs": ["chapters"], "glob": "*.md",
+        "source_dirs": ["chapters", "appendices"], "glob": "*.md",
     },
     "geometric-communication": {
         "number": 7, "title": "Geometric Communication",
@@ -170,6 +174,10 @@ BOOK_CONFIGS: dict[str, dict] = {
         # the proof of Proposition 17.1 does not give its stated bound and two of its figures
         # are unsourced (CORRECTIONS-2026-11-26.md, "Unresolved").
         "exclude": ["ch17_*.md"],
+        "contents_note": ("Chapter 17, *What Communication Teaches the General Theory*, is not yet "
+                          "in the online edition: the proof of its Proposition 17.1(i) has a gap that "
+                          "the volume's corrections record lists as open. Other chapters refer to it "
+                          "as part of the book."),
     },
     "geometric-medicine": {
         "number": 8, "title": "Geometric Medicine",
@@ -179,10 +187,6 @@ BOOK_CONFIGS: dict[str, dict] = {
                         "manuscript/part_v", "manuscript/part_vi",
                         "manuscript/appendices"],
         "glob": "*.md",
-        # Parts V and VI went online on 2026-11-26 after a review. Chapter 14 is held back:
-        # its evidence paragraphs rest on findings attributed to papers that are not in the
-        # bibliography and have not been checked (CORRECTIONS-2026-11-26.md, "Unresolved").
-        "exclude": ["ch14_*.md"],
     },
     "geometric-education": {
         "number": 9, "title": "Geometric Education",
@@ -191,10 +195,6 @@ BOOK_CONFIGS: dict[str, dict] = {
                         "manuscript/part_iii", "manuscript/part_iv",
                         "manuscript/part_v", "manuscript/appendices"],
         "glob": "*.md",
-        # Parts IV and V went online on 2026-11-26 after a review. Chapter 14 is held back:
-        # its point estimates are unsourced and its compound total contradicts its own table
-        # (CORRECTIONS-2026-11-26.md in the volume, "Unresolved").
-        "exclude": ["ch14_*.md"],
     },
     "geometric-politics": {
         "number": 10, "title": "Geometric Politics",
@@ -207,10 +207,15 @@ BOOK_CONFIGS: dict[str, dict] = {
         # held back: their election shares and Bond Index values contradict each other and
         # could not be settled (CORRECTIONS-2026-11-26.md, "Unresolved").
         "exclude": ["ch13_*.md", "ch15_*.md"],
+        "contents_note": ("Chapter 13, *Ranked Choice as Dimensional Recovery*, and Chapter 15, *The "
+                          "Political Bond Index*, are not yet in the online edition: some of their "
+                          "figures disagree with each other and with Chapter 5, and the volume's "
+                          "corrections record lists them as open. Other chapters refer to them as "
+                          "part of the book."),
     },
     "geometric-ai": {
         "number": 11, "title": "Geometric AI",
-        "subtitle": "Alignment, Safety, and the Structure-Preserving Path to Superintelligence",
+        "subtitle": "Alignment, Safety, and the Manifold Structure of Machine Values",
         "source_dirs": ["manuscript", "manuscript/part_i", "manuscript/part_ii",
                         "manuscript/part_iii", "manuscript/part_iv", "manuscript/part_v",
                         "manuscript/part_vi", "manuscript/appendices", "manuscript/backmatter"],
@@ -218,7 +223,7 @@ BOOK_CONFIGS: dict[str, dict] = {
     },
     "geometric-gastronomy": {
         "number": 12, "title": "Geometric Gastronomy",
-        "subtitle": "The Mathematical Structure of Flavor, Pairing, and Culinary Harmony",
+        "subtitle": "The Mathematical Structure of Flavor, Pairing, Cooking, and Culinary Navigation",
         "source_dirs": ["chapters"], "glob": "*.md",
     },
     "geometric-observation": {
@@ -302,6 +307,10 @@ def check_manifest(config: dict, manifest_path: Path) -> list[str]:
         problems.append(f"number mismatch: build={config['number']} manifest={vol.get('number')}")
     if vol.get("title") != config["title"]:
         problems.append(f"title mismatch: build='{config['title']}' manifest='{vol.get('title')}'")
+    # The subtitle is printed on every page of the volume (build.py) and on the portal's cards
+    # (books.json). Before 2026-11-26 it was not compared, and five volumes drifted apart.
+    if vol.get("subtitle") != config["subtitle"]:
+        problems.append(f"subtitle mismatch: build='{config['subtitle']}' manifest='{vol.get('subtitle')}'")
     return problems
 
 
@@ -528,6 +537,12 @@ def generate_index(chapters: list[tuple[str, str, str]], template: str,
             body.append('  <ol class="toc-chapters">\n' + "\n".join(items) + '\n  </ol>\n</div>')
         else:
             body.append('<ol class="toc-chapters">\n' + "\n".join(items) + '\n</ol>')
+    if config.get("contents_note"):
+        # Chapters the author's text refers to but the online edition holds back (see the
+        # volume's `exclude`): say so where a reader looking for them will look.
+        body.append('<div class="book-abstract contents-note">')
+        body.append(md_to_html(config["contents_note"].strip()))
+        body.append('</div>')
     return _fill(template, title="Contents", body="\n".join(body), config=config,
                  build_date=build_date, chapter_id="index", nav_top="", nav_bottom="")
 

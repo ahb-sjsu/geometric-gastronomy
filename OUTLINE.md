@@ -1,6 +1,8 @@
 # Geometric Gastronomy
 ## Volume 12 of the Geometric Series
 
+> **Note (2026-11-26).** Where this plan calls the culinary transformations a group (lines for 6.5 and 8.2), the manuscript now calls them a monoid: composition is associative and has an identity, but most of the operations have no inverse (Sections 6.5 and 8.2). The plan itself is kept as written.
+
 **Working subtitle:** *The Mathematical Structure of Flavor, Pairing, and Culinary Harmony*
 
 **Thesis:** Flavor perception, ingredient pairing, recipe construction, and culinary traditions all exhibit geometric structure — vectors in receptor space, manifolds of balance, transformations under cooking, and cultural attractors in flavor space. This book develops the mathematical framework and shows it unifies empirical findings across food science, neuroscience, and computational gastronomy.

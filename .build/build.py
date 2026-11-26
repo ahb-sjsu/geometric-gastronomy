@@ -163,16 +163,26 @@ BOOK_CONFIGS: dict[str, dict] = {
         "subtitle": "Language, Signal, and the Topology of Meaning",
         "source_dirs": ["manuscript/part_i", "manuscript/part_ii",
                         "manuscript/part_iii", "manuscript/part_iv",
-                        "manuscript/part_v", "manuscript/appendices"],
+                        "manuscript/part_v", "manuscript/part_vi",
+                        "manuscript/part_vii", "manuscript/appendices"],
         "glob": "*.md",
+        # Parts VI and VII went online on 2026-11-26 after a review. Chapter 17 is held back:
+        # the proof of Proposition 17.1 does not give its stated bound and two of its figures
+        # are unsourced (CORRECTIONS-2026-11-26.md, "Unresolved").
+        "exclude": ["ch17_*.md"],
     },
     "geometric-medicine": {
         "number": 8, "title": "Geometric Medicine",
         "subtitle": "Clinical Reasoning, Triage, and the Ethics of Allocation",
         "source_dirs": ["manuscript/part_i", "manuscript/part_ii",
                         "manuscript/part_iii", "manuscript/part_iv",
+                        "manuscript/part_v", "manuscript/part_vi",
                         "manuscript/appendices"],
         "glob": "*.md",
+        # Parts V and VI went online on 2026-11-26 after a review. Chapter 14 is held back:
+        # its evidence paragraphs rest on findings attributed to papers that are not in the
+        # bibliography and have not been checked (CORRECTIONS-2026-11-26.md, "Unresolved").
+        "exclude": ["ch14_*.md"],
     },
     "geometric-education": {
         "number": 9, "title": "Geometric Education",
@@ -190,8 +200,13 @@ BOOK_CONFIGS: dict[str, dict] = {
         "number": 10, "title": "Geometric Politics",
         "subtitle": "Representation, Polarization, and the Topology of Democratic Choice",
         "source_dirs": ["manuscript/part_i", "manuscript/part_ii",
-                        "manuscript/part_iii", "manuscript/appendices"],
+                        "manuscript/part_iii", "manuscript/part_iv",
+                        "manuscript/part_v", "manuscript/appendices"],
         "glob": "*.md",
+        # Parts IV and V went online on 2026-11-26 after a review. Chapters 13 and 15 are
+        # held back: their election shares and Bond Index values contradict each other and
+        # could not be settled (CORRECTIONS-2026-11-26.md, "Unresolved").
+        "exclude": ["ch13_*.md", "ch15_*.md"],
     },
     "geometric-ai": {
         "number": 11, "title": "Geometric AI",
@@ -324,9 +339,17 @@ def protect_math(text: str) -> tuple[str, dict[str, str]]:
         # blank line. Before 2026-11-25 the body was `.+?`, which stops at a newline: a wrapped
         # formula was left unprotected, Markdown ate its underscores, and every `$` after it
         # in the paragraph paired with the wrong partner.
-        seg = re.sub(r'(?<![\$\\])\$(?!\$)(?!\s)((?:[^\n]|\n(?![ \t]*\n))+?)(?<![\s\\])\$(?!\$)', _replace, seg)
+        # The body may not contain a dollar sign (an escaped one is already a token): without
+        # that rule (before 2026-11-26) "$17 to $45 ... $x_1$" was taken as one formula
+        # running from the first currency sign to the end of the real one.
+        seg = re.sub(r'(?<![\$\\])\$(?!\$)(?!\s)((?:[^\n$]|\n(?![ \t]*\n))+?)(?<![\s\\])\$(?!\$)', _replace, seg)
         seg = re.sub(r'\\\[(.+?)\\\]', _replace, seg, flags=re.DOTALL)
         seg = re.sub(r'\\\((.+?)\\\)', _replace, seg)
+        # A dollar sign still in the text and followed by a digit is unescaped currency
+        # ("$17 to $45"). Left as it was (before 2026-11-26), KaTeX's auto-render in the browser
+        # paired it with the next one and set "17 to " as a formula. Every formula has been
+        # protected above, so what remains here is not math.
+        seg = re.sub(r'(?<![\\$])\$(?=\d)', CURRENCY_TOKEN, seg)
         return seg
 
     parts = re.split(r'(^```.*?^```[ \t]*$|^~~~.*?^~~~[ \t]*$)', text, flags=re.DOTALL | re.MULTILINE)
@@ -364,10 +387,26 @@ def _make_converter() -> "markdown.Markdown":
     )
 
 
+def drop_orphan_backrefs(body: str) -> str:
+    """Remove the back-link of a footnote that the text never cites.
+
+    The footnotes extension prints every defined footnote with a link back to its marker;
+    when the text has no marker for it, that link points at nothing. The footnote itself
+    is kept: where its marker belongs is the author's decision.
+    """
+    present = set(re.findall(r'id="(fnref\d*:[^"]+)"', body))
+    return re.sub(
+        r'&#160;<a class="footnote-backref" href="#(fnref\d*:[^"]+)"[^>]*>.*?</a>',
+        lambda m: m.group(0) if m.group(1) in present else "",
+        body,
+        flags=re.S,
+    )
+
+
 def md_to_html(md_text: str) -> str:
     protected, placeholders = protect_math(md_text)
     body = _make_converter().convert(protected)
-    return restore_math(body, placeholders)
+    return drop_orphan_backrefs(restore_math(body, placeholders))
 
 
 def output_name(md_path: Path, config: dict) -> str:

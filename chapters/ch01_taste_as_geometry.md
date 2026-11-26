@@ -83,7 +83,7 @@ This is the lesson that organizes the book. **The early maps did not fail becaus
 >
 > *Return to the flat parsnip purée. We can now say precisely what the cook did, and why it was fast. She did not search a list of forty ingredients; she located the dish as a point $\mathbf{f}_0 \in \mathcal{F}$ and felt where it was deficient — low on the sour/bright taste component and low on the umami floor, $f_{\text{sour}} \approx 0$ and $f_{\text{umami}} \approx 0$, with $f_{\text{sweet}}$ already high. The target $\mathbf{f}^\star$ — a balanced purée — sits a short distance away in a known direction. Lime is a vector pushing mainly along $+f_{\text{sour}}$ (with an aroma component); miso pushes along $+f_{\text{umami}}$ (with its own aroma and a little salt). Adding a measured amount of each is vector addition: $\mathbf{f}_0 + \alpha\,\mathbf{v}_{\text{lime}} + \beta\,\mathbf{v}_{\text{miso}} \approx \mathbf{f}^\star$. The final salt correction nudged the result back onto the balance manifold (Chapter 6) after the additions overshot.*
 >
-> *She solved a two-parameter problem — find $\alpha$ and $\beta$ — in a space of a few tens of dimensions, not a forty-thousand-element combinatorial search. That collapse, from an intractable list to a short move along two axes, is the whole argument of this book in ninety seconds of service.*
+> *She solved a two-parameter problem — find $\alpha$ and $\beta$ — in a space of a few tens of dimensions, not a combinatorial search through tens of thousands of possibilities. That collapse, from an intractable list to a short move along two axes, is the whole argument of this book in ninety seconds of service.*
 
 ![Figure 1.2](figures/ch01_fig2.svg)
 

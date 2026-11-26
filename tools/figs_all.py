@@ -628,7 +628,7 @@ def fig_6_1():
             "K(ω) = 1/(1 + (ω/ωc)²), drawn for two cutoffs; more fat lowers the cutoff. Heat is the flow "
             "df/dτ = −Γf with unequal release rates (1.0 and 0.3), which shrinks the components at different "
             "speeds and so turns the vector.",
-            "## 6.5 Salt Fat Acid Heat as a Basis for the Group of Transformations")
+            "## 6.5 Salt Fat Acid Heat as a Basis for the Monoid of Transformations")
     c = _canvas(720, 400, "Four verbs: salt stretches, acid rotates, fat filters, heat flows")
     sc = 58
     heads = [("Salt: stretch", "λ = 1.3 on the savory axis"), ("Acid: rotate", "ε = 0.3 along b̂, then 20°"),

@@ -75,3 +75,20 @@ Nothing. The volume does not use the dihedral group D4, the Hohfeldian positions
 6. **Ahn et al. (2011) ingredient and compound counts.** Section 4.2 gives "about 380 ingredients" and "about 1,021 compounds". The repository records no exact ingredient count, so the approximate figure was left.
 
 7. **`OUTLINE.md`, line 8.2.** The outline still says "non-abelian group structure". It is a plan and was left, apart from the lines for 4.7 and 9.6.
+
+## Found while drawing the figures (2026-11-26), not changed
+
+These were noticed while the figures were drawn. No figure draws them.
+
+1. The box of Section 3.3 says that under Fechner's law "early pinches barely register because they are small ratios on top of the baseline"; Section 3.1's own formula df = k dC/C gives the opposite (the first pinch is the largest ratio; each later equal pinch moves perception less). Figure 3.1 draws the formula.
+2. The salt exponent of 1.4 in Section 3.3 has no source in the repository; Stevens' published table may give 1.3 (unverified).
+3. Section 7.5 calls sous-vide (56 C for two days) and a 230 C roast for 40 minutes "comparable total energy"; under the section's own measure, the integral of T over time, they differ about 17.5-fold.
+4. Section 11.2: every Pareto frontier is non-increasing by definition, so "the frontier slopes the wrong way" cannot be the empirical claim; the claim concerns the correlation across the food supply.
+5. Section 12.2 calls the step from about 400 receptor types to "a few thousand glomeruli" a compression, while it raises the channel count.
+6. Chapter 1 closing box: "a forty-thousand-element combinatorial search" matches neither 40 x 39 x 38 = 59,280 nor C(40,3) = 9,880.
+7. Chapter 6 still calls the transformations a group (heading of Section 6.5, "group-like ... each has an approximate inverse"), against Section 8.2 (a monoid) and Section 6.6 (salt cannot be un-added); correction 6 fixed Chapter 7 only.
+8. Section 6.1 says salt is "very nearly commutative with the others"; Sections 6.2 and 6.5 say salt then acid differs from acid then salt (under the chapter's formulas they commute only at lambda = 1).
+9. Sections 2.5 and 13.5 model taster variation as a rotation, which preserves length and cannot represent a gain change; Section 2.5 itself says R rescales.
+10. Section 10.2's butter and olive oil example is a substitute pair; the next paragraph says such pairs reveal complementary pairings.
+11. Section 9.4 writes the mixture as t pA + (1 - t) pB, reversed relative to a geodesic that runs from A at t = 0.
+12. Minor: "nonneglible" (Section 9.1); Section 3.4's "stretches that coordinate ... distances shrink" reads self-contradictory; Section 14.2 calls a squared speed a distance; term (ii) of Section 5.6 is largest for opposite vectors, not orthogonal ones, unless flavor vectors are nonnegative.

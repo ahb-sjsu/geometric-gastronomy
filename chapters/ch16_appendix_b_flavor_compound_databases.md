@@ -93,6 +93,10 @@ The geometry is only as honest as the matrix, and $A$ has four structural distor
 
 **Matrix effects and nonlinearity.** Even OAV-weighting is linear, and perception is not: suppression, synergy, and the nonlinear summation that Chapter 1 (§1.1) called the curvature of the flavor metric all mean that $\mathbf{f}_i$ is a *curved* function of $\mathbf{c}_i$, not a linear readout. The databases give $\mathbf{c}_i$; recovering $\mathbf{f}_i$ requires the receptor model of Chapter 2 and the metric of Chapter 3. **The compound vector is where geometry starts, not where it ends.**
 
+![Figure B.1](figures/appb_fig1.svg)
+
+*Figure B.1. The extraction pipeline of Section B.2, which turns database records into a compound vector. FlavorDB's table of ingredient-molecule associations is the backbone; FooDB concentrations and VCF volatility flags and thresholds are joined on InChIKey; the vocabulary of columns is fixed; and components are weighted by odor activity value, OAV = c / θ. Missing concentrations are kept as their own stratum and never filled with zero. The result is a chemical vector c_i, not yet the perceptual flavor vector f_i, which needs the receptor map of Chapter 2 and the metric of Chapter 3.*
+
 ## B.3 Worked Construction: A Compound Vector for Strawberry
 
 To make the pipeline concrete, we construct the compound vector for **strawberry** (*Fragaria × ananassa*) — a deliberately easy case, because strawberry is among the most exhaustively profiled foods in all three databases and its aroma chemistry is genuinely understood.

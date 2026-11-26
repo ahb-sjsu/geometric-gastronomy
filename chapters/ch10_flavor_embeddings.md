@@ -71,6 +71,10 @@ This is the operation Dev's engine performed. It took the displacement "rescue s
 >
 > *We can now write Dev's suggestion exactly. Let $\mathbf{r}_{\text{funk-foil}} = \frac{1}{N}\sum (\mathbf{v}_{\text{blue}} - \mathbf{v}_{\text{sweet partner}})$ averaged over the corpus's sweet-and-blue pairings. The engine computed $\mathbf{v}_{\text{peach}} + \mathbf{r}_{\text{funk-foil}}$ and read off the nearest ingredients; blue cheese topped the list because peach sits, in recipe space, where figs and pears sit — near in role, the off-diagonal neighbors of §10.2. The first plate succeeded because the transport was faithful: peach's region of $\mathcal{F}$ is locally flat with respect to figs and pears, so the rescue vector arrived un-rotated. The second plate failed for a reason the embedding could not see at all. The model's $\mathbf{v}_{\text{blue cheese}}$ is a single point; it does not distinguish a mild young Bleu d'Auvergne from a wall of aged Roquefort. Concentration, the very thing §10.6 will indict, lived in the dose Dev chose, not in the vector the engine knew. The direction was a theorem. The magnitude was a craft.*
 
+![Figure 10.1](figures/ch10_fig1.svg)
+
+*Figure 10.1. The analogy arithmetic of Section 10.3 as the chapter's closing box writes it, in a schematic two-dimensional picture of an embedding. The displacement from each sweet partner to its blue cheese (honey to Stilton, fig to Gorgonzola, pear to Roquefort) is nearly the same vector, and their average is the role vector r. Added to peach, which sits near fig and pear, r lands among the blue cheeses; its nearest neighbor here is Roquefort. The positions are illustrative, not taken from a trained embedding; the embeddings of the chapter have about 100 to 300 dimensions.*
+
 ## 10.4 Flavor Compression: PCA-Matryoshka on Flavor Profiles
 
 How many dimensions does $\mathcal{F}$ actually need? Chapter 1 argued, from biology, for "a few tens." The embeddings let us answer empirically, and the answer matters both for theory and for practice: a flavor vector that fits in a handful of numbers is one a cook, a database, or a sensor can actually use.

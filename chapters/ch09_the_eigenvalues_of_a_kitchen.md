@@ -69,6 +69,10 @@ And here is the result the running-example chef discovered with her hands. The g
 >
 > *Her successful version — two-thirds dashi essence, one-third fat-stripped mole essence, citrus split between yuzu and lime — is a true geodesic. She interpolated only along the shared axes (umami, acid, restrained sweetness) and refused to interpolate along the unshared ones (she removed the lard rather than averaging it). The dish that resulted was not mole and not dashi and not a collision of the two. It was a single point on the curve $C(t)$ at $t \approx 0.5$ — halfway in the mouth, though two-to-one in the pot — coherent because she had transported along the metric and not along the ingredient list. The geometry told her what to keep and what to leave on the cutting board.*
 
+![Figure 9.1](figures/ch09_fig1.svg)
+
+*Figure 9.1. Fusion as interpolation between two cuisine distributions (Section 9.4), drawn for two illustrative Gaussians: a mole-like cuisine A with a wide spread in fat and char, and a dashi-like cuisine B with almost none. The filled ellipses are the Wasserstein geodesic at t = 0.25, 0.5 and 0.75: a single coherent cloud whose mean moves on a straight line while its covariance changes shape, here losing its fat-and-char spread (standard deviation 0.67 at A, 0.39 halfway, 0.11 at B). The mixture ½pA + ½pB is instead the two end clouds side by side, with almost no mass at the midpoint where the geodesic places its whole cloud. One-standard-deviation contours.*
+
 ## 9.5 Cultural Evolution as Gradient Descent
 
 A cuisine's distribution is not static. Over centuries it drifts, and the drift is not random: cuisines move, slowly, toward regions of flavor space that are better adapted to their constraints. This is an optimization process running on a timescale of generations, with the population of cooks as the search agents and dishes as the candidate solutions — and the natural mathematical description is *gradient descent on a fitness landscape*.

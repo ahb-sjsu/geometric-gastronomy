@@ -83,6 +83,10 @@ with $E_i$ the enthalpy of vaporization of component $i$. Because the diagonal e
 
 The second sense is *trigeminal*: chili heat, the capsaicin axis — and its milder cousin, the piperine bite of black pepper. This is not temperature at all; it is the orthogonal somatosensory dimension Chapter 1 identified, mediated by TRPV1, and it enters the vector as a genuinely new coordinate rather than as a transformation of existing ones. The pepper Marcus cracks over the braise is this second sense — a translation along an axis that taste and aroma do not span, and exactly the kind of lift an unctuous, fat-heavy dish needs to keep from sitting dead on the tongue. It is worth keeping the two apart, because the thermal heat is a *flow* (it moves the existing vector) while trigeminal heat is a *translation* (it appends a component). Nosrat's "Heat" is mostly the former; the cook's final crack of pepper is the latter. Both are real; only the first is a transformation in the strict operator sense, and §6.5 will note that this is why "Heat" sits a little uneasily in the basis.
 
+![Figure 6.1](figures/ch06_fig1.svg)
+
+*Figure 6.1. The four seasoning operators of Sections 6.1 to 6.4 as the chapter posits them, with illustrative values. Salt stretches the savory component by λ = 1.3 and leaves the rest fixed. Acid adds a small step ε = 0.3 along the bright axis b̂ and rotates by θ = 20°. Fat is the low-pass kernel K(ω) = 1/(1 + (ω/ωc)²), drawn for two cutoffs; more fat lowers the cutoff. Heat is the flow df/dτ = −Γf with unequal release rates (1.0 and 0.3), which shrinks the components at different speeds and so turns the vector.*
+
 ## 6.5 Salt Fat Acid Heat as a Basis for the Group of Transformations
 
 We can now ask the structural question the chapter has been circling: in what sense do the four elements form a *basis*? Nosrat's title asserts it as pedagogy; we can say something sharper.
@@ -94,6 +98,10 @@ $$ T_{\text{fat}}\circ T_{\text{acid}} \;\neq\; T_{\text{acid}}\circ T_{\text{fa
 A rotation followed by a smoothing is not a smoothing followed by a rotation — this is true of the literal linear-algebraic operators we wrote down, and it is true at the stove. The non-commutativity is not a defect of the model; it is the formal content of the word *order* in "salt, fat, acid, heat," and it is why a cook tastes and adjusts iteratively rather than dumping all four in at once. We will meet the same non-abelian structure at the scale of whole recipes in Chapter 8's sear-then-braise (searing-then-braising $\neq$ braising-then-searing); seasoning is that structure in miniature.
 
 The basis is also *imperfect*, and honesty requires saying how. Salt is the cleanest generator — a near-pure scaling. Acid and fat are clean and genuinely complementary — rotation and its damping inverse. Heat is the ragged one: it bundles a true flow (thermal volatilization) with a translation along an orthogonal axis (trigeminal chili) under a single word, and a more natural basis might split it in two. That Nosrat's four nonetheless *work* as a teachable spanning set is the interesting empirical fact: the redundancy in "Heat" is the price of a basis a human can hold in mind, and four is near the limit of what a cook keeps live while tasting — a budget constraint we treat formally as attentional projection in §12.5. The geometry tolerates an imperfect basis; the cook requires a memorable one.
+
+![Figure 6.2](figures/ch06_fig2.svg)
+
+*Figure 6.2. Salt and acid do not commute (Section 6.5). The same starting dish f0 = (2.0, 0.4) is seasoned in both orders with the operators of Figure 6.1 (λ = 1.3, ε = 0.3, θ = 20°). Salt then acid lands at (2.20, 1.55); acid then salt lands at (2.13, 1.34). The gap of 0.22 between the two endpoints is the commutator acting on f0. The values are illustrative.*
 
 ## 6.6 The Seasoning Fixed Point
 

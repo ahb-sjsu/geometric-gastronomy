@@ -82,6 +82,10 @@ This is the operation that underlies all pairing: combining ingredients is vecto
 
 This is the precise sense in which the Western and Eastern strategies are geometrically dual. Western diagonal pairing builds dishes by **lengthening** the resultant along a coherent direction; Eastern off-diagonal pairing builds dishes by **steering** the resultant into the interior of the balance region through orthogonal contributions. Balance, in the first strategy, is achieved by choosing a direction worth amplifying; in the second, by choosing contributions whose vector sum lands on target. Both are addition. They differ only in the angles between the things being added — which is to say, they differ only in geometry. The scalar cosine sees the angle but not the resultant; the vector sum sees both, and that is why we need it.
 
+![Figure 4.1](figures/ch04_fig1.svg)
+
+*Figure 4.1. Two ways for summands to combine (Sections 4.4 and 4.5), drawn for vectors of length 3 and 2. Similar summands at an angle of 10° add nearly colinearly: the resultant has length 4.98, close to the sum of lengths 5, and the pair spans an area of only 1.04. Complementary summands at 90° add by the Pythagorean rule: the resultant has length 3.61, points in a direction neither summand occupies, and the pair spans an area of 6. The shaded parallelogram is the spanned area the chapter uses as its measure of complementarity.*
+
 ## 4.6 Synergy and Antagonism
 
 So far the sum has been linear: $\mathbf{f}_{\text{dish}} = \sum a_i \mathbf{f}_i$, addition in a flat space. But the kitchen knows that combinations are not linear. A little salt makes glutamate's umami *leap* — far more than the salt's own contribution; this is the salt–umami synergy we met in Chapter 1 as a bulge in the metric. And bitterness with sweetness partly *cancels* — tonic water carries sugar precisely because the sweet suppresses the quinine bitter, so the sum is less than its parts. The first is **synergy** (superlinearity), the second **antagonism** (sublinearity), and both mean the same thing geometrically: *the flavor space is curved.*
@@ -95,6 +99,10 @@ $$ \mathbf{f}_{\text{dish}} \ =\ \mathbf{f}_1 + \mathbf{f}_2 \ +\ \mathbf{B}(\ma
 where $\mathbf{B}$ is a symmetric bilinear interaction term. **[Modeling Axiom.]** When $\mathbf{B}$ adds magnitude along a perceptual axis the pairing is *synergistic* (umami + salt: $\mathbf{B}$ pushes $+f_{\text{umami}}$); when it subtracts, *antagonistic* (bitter + sweet: $\mathbf{B}$ pulls $-f_{\text{bitter}}$). The bilinear term is exactly the curvature of $\mathcal{F}$: in a flat (Euclidean) flavor space $\mathbf{B} = 0$ and all pairings are mere sums, but the real space is Riemannian, and $\mathbf{B}$ is its second fundamental form sampled at the pairing's location. Geodesics in a curved space do not add like arrows in a plane, and neither do flavors.
 
 This has a sharp consequence. Synergy and antagonism are *not symmetric* between similar and complementary pairings: the strongest synergies (salt–umami) live among complementary, near-orthogonal taste dimensions — different receptors potentiating one another — which is one more reason the Eastern orthogonal strategy is so powerful. It does not merely tile the space additively; it lands in regions where curvature *amplifies* the sum. The strongest antagonisms (sweet–bitter cancellation) can suppress a defect or, mishandled, flatten a dish into muddy nothing. The cook who balances a dish navigates not a flat sum but a curved surface where some directions of combination are rewarded superlinearly and others punished. Chapter 6 makes this the basis of seasoning as an operator algebra; here it is enough to see that **curvature is the third geometric fact of pairing**, after angle (§4.1–4.4) and resultant (§4.5), and that a scalar similarity score is blind to all of it.
+
+![Figure 4.2](figures/ch04_fig2.svg)
+
+*Figure 4.2. The second-order sum of Section 4.6, f1 + f2 + B(f1, f2), with illustrative values. Left, synergy: for salt and glutamate the interaction term B pushes along +umami, so the mixture lands above the linear sum. Right, antagonism: for sugar and quinine B pulls along −bitter, so the mixture lands below it. The hollow marker is the linear sum that a flat model would predict.*
 
 ## 4.7 Experimental Validation: A Proposed Reanalysis
 

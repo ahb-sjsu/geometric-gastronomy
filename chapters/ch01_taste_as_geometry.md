@@ -37,6 +37,10 @@ The simplex picture matters because it immediately predicts structure that a lis
 
 **[Empirical.]** The basis is not perfectly orthogonal, and this too is geometry. Sweetness suppresses bitterness (the reason tonic water carries sugar); sourness enhances the perception of saltiness at low concentrations; bitterness and sourness reinforce. These are off-diagonal interactions — the basis vectors are *correlated* in perception even though their receptors are distinct in biology. A faithful flavor space therefore cannot treat the five tastes as an orthonormal frame. It must carry a metric tensor whose off-diagonal entries encode exactly these cross-modal interactions. The taste simplex is the skeleton; the metric (Chapter 3) is the flesh.
 
+![Figure 1.1](figures/ch01_fig1.svg)
+
+*Figure 1.1. The five taste qualities of Section 1.1 as the vertices of a simplex, drawn as a pentagon. The drawing is a flat projection of a four-dimensional simplex, so distances in it are not to scale. A vertex is one pure quality, an edge a mixture of two, and the interior a blend of all five, where the chapter places real tastes. The ripe tomato is an interior point weighted toward umami and sweet with a sour edge; its weights are illustrative. The dashed curve marks the bulge the chapter posits for the segment from salt to umami, drawn schematically.*
+
 ## 1.2 The Olfactory Manifold
 
 If taste were the whole story, this would be a short book, because five dimensions are easy. But taste is the smaller half. The overwhelming majority of what we call "flavor" is *aroma*, delivered retronasally — the volatiles released in the mouth travel up the back of the throat to the olfactory epithelium. Pinch your nose and eat a jellybean: you get sweet and sour (taste) and almost nothing else; release, and the flavor — cherry, pear, buttered popcorn — floods in. The flavor was always in the nose.
@@ -80,6 +84,10 @@ This is the lesson that organizes the book. **The early maps did not fail becaus
 > *Return to the flat parsnip purée. We can now say precisely what the cook did, and why it was fast. She did not search a list of forty ingredients; she located the dish as a point $\mathbf{f}_0 \in \mathcal{F}$ and felt where it was deficient — low on the sour/bright taste component and low on the umami floor, $f_{\text{sour}} \approx 0$ and $f_{\text{umami}} \approx 0$, with $f_{\text{sweet}}$ already high. The target $\mathbf{f}^\star$ — a balanced purée — sits a short distance away in a known direction. Lime is a vector pushing mainly along $+f_{\text{sour}}$ (with an aroma component); miso pushes along $+f_{\text{umami}}$ (with its own aroma and a little salt). Adding a measured amount of each is vector addition: $\mathbf{f}_0 + \alpha\,\mathbf{v}_{\text{lime}} + \beta\,\mathbf{v}_{\text{miso}} \approx \mathbf{f}^\star$. The final salt correction nudged the result back onto the balance manifold (Chapter 6) after the additions overshot.*
 >
 > *She solved a two-parameter problem — find $\alpha$ and $\beta$ — in a space of a few tens of dimensions, not a forty-thousand-element combinatorial search. That collapse, from an intractable list to a short move along two axes, is the whole argument of this book in ninety seconds of service.*
+
+![Figure 1.2](figures/ch01_fig2.svg)
+
+*Figure 1.2. The line cook's fix of the closing box of Chapter 1 as vector addition, drawn in the plane of the sour and umami taste components only. The flat purée f0 sits near zero on both, and the balanced target f* lies a short distance away. Lime pushes along +sour and miso along +umami. The fix is two numbers, here α = 0.52 and β = 0.37, and either order of the two additions reaches the same point. The coordinates are illustrative; the chapter gives none.*
 
 ## What This Book Will Show
 

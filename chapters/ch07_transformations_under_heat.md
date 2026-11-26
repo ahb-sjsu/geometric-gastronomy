@@ -53,6 +53,10 @@ At $s = 0$ the dish sits at pure sweetness, high $f_{\text{sweet}}$, near-zero a
 
 The trajectory also explains a perceptual subtlety. The pleasant region of the caramel curve is bounded on *both* sides — too little ($s$ small) is merely sweet; too much ($s$ large) is acrid. The hedonic optimum is an interior point of a one-parameter family: the easiest optimization to state and one of the hardest to hit, because the gradient of flavor with respect to time is steepest exactly where the optimum lies. We met bounded-on-both-sides hedonic regions in Chapter 5 as features of the pairing manifold; here the same shape appears within a single transformation, reduced to one dimension. The dark-caramel renaissance of recent pastry — pushing $s$ further toward bitterness than tradition allowed, then arresting it — is, in this language, a deliberate relocation of the stopping point along a known arc.
 
+![Figure 7.1](figures/ch07_fig1.svg)
+
+*Figure 7.1. Caramelization as the one-dimensional trajectory of Section 7.2, schematic. A single progress coordinate s, which rises with accumulated heat and cannot run backward, carries sweetness down, caramel aroma up to a peak, and then bitterness up toward the burnt corner. The pleasant region is bounded on both sides, so the only control is where on the arc to stop. The chapter gives the order of the stages, not the shapes of the curves; the shapes are illustrative.*
+
 ## 7.3 Protein Denaturation as Dimensional Collapse
 
 Heat an egg white, or a steak's interior, or a fish fillet, and the dominant transformation is not aromatic at all. It is structural: **protein denaturation**, the unfolding of compactly folded polypeptides and their subsequent aggregation into a network. Egg-white proteins begin to unfold near 60 °C and set into an opaque gel by ~80 °C; collagen in tough cuts unwinds and converts to gelatin over hours near 60–70 °C; the myosin and actin of muscle denature in stages that a cook reads as rare, medium, and well-done.
@@ -103,6 +107,10 @@ $$ \Phi_{\text{smoke}}(\mathbf{f}) \approx \mathbf{f} + \mathbf{v}_{\text{smoke}
 The translation model is an approximation, and its breakdowns are worth naming. Smoke is not purely additive: many smoke phenols are antimicrobial and antioxidant, so over weeks the smoke vector also *bends* the food's own aging trajectory by suppressing certain microbial flows — an interaction term, not a clean sum. Curing's salt does not merely add a cured note; it lowers water activity $a_w$ and thereby resets the operating point of every other map (which is why cured-then-smoked-then-aged is a sequence with deliberate order — the non-commutation of Chapter 8 again). And dry-aging's enzymatic deepening is a slow dynamical flow in the §7.4 sense layered atop the dehydration translation. The precise statement: these processes are *dominantly* translational, with the new dimension as the headline effect, carrying second-order nonlinear couplings through the shared variables $a_w$ and pH. The first-order translation is what the palate names; the second-order coupling is what the master charcutier manages.
 
 That smoking and aging *add dimensions without removing them* makes them the natural complement to denaturation's collapse — and is why some of the most prized foods pair a collapse with a translation: the gentle denaturation of a cured-then-cold-smoked fish, the long flow of an aged cheese laid over the translation of its salting. The cook's full toolkit, assembled across this chapter, is exactly the set of geometric move-types available on $\mathcal{F}$: expand, traverse, collapse, flow, translate. Heat, time, microbes, and smoke are the means; these five motions are the ends.
+
+![Figure 7.2](figures/ch07_fig2.svg)
+
+*Figure 7.2. The five geometric types of cooking map that Chapter 7 posits, sketched schematically. Maillard browning expands a few precursor dimensions into many aroma dimensions; caramelization moves along one coordinate; denaturation maps directions toward zero; fermentation follows a trajectory toward an attractor, and a small change in a control parameter can send it to a different end state; smoking, curing and aging translate the vector by a characteristic step.*
 
 ## From Transformation to Construction
 

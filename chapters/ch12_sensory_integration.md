@@ -52,6 +52,10 @@ $$ \underbrace{10^4\ \text{compounds}}_{\text{world}} \to \underbrace{\sim\!400\
 $$ \Phi\ =\ \pi_{\text{OFC}} \circ \pi_{\text{piriform}} \circ \pi_{\text{bulb}}, $$
 with $\pi_{\text{OFC}}$ taking the additional taste, texture, temperature, and visual inputs as side channels. Two structural facts follow, and both will matter. First, because each stage is a many-to-one map, the whole is *non-invertible*: the percept cannot be decomposed back into its sensory sources, which is the abstract form of oral referral and of the wine dye. Second, because the integrating stage (OFC) is also the brain's principal site for *value* and *reward* (Rolls, 2015), the flavor space $\mathcal{F}$ is delivered to consciousness already carrying a hedonic gradient (Chapter 3.6) — flavor and its pleasantness are computed in the same place, by the same neurons, which is why we cannot perceive a flavor without simultaneously liking or disliking it.
 
+![Figure 12.1](figures/ch12_fig1.svg)
+
+*Figure 12.1. The aroma stream through the stages Section 12.2 names, with the counts it gives: about 10,000 compounds, about 400 receptor types, a few thousand glomeruli in the olfactory bulb, odor objects in piriform cortex, and the orbitofrontal cortex, where the binding map Φ lands in a flavor space of 10 to 30 dimensions. Taste, texture, temperature and vision enter at the orbitofrontal cortex as side channels. The figure restates the structure of the text; it is not a measurement.*
+
 ## 12.3 Cross-Modal Correspondences
 
 If the senses are projected into a *shared* space, the projection should leave fingerprints: regularities by which a feature in one modality reliably maps to a feature in another, because both land near the same region of $\mathcal{F}$. Charles Spence and colleagues have catalogued exactly these *crossmodal correspondences*, and they are startlingly consistent across people (Spence, 2011; Spence, 2015).
@@ -85,6 +89,10 @@ $$ \mathbf{f}\ \longmapsto\ P_S\,\mathbf{f},\qquad P_S^2 = P_S. $$
 Attending to acidity projects onto the sour/bright axis; attending to "the oak" projects onto the relevant aroma coordinates; attending to mouthfeel projects onto the texture block $\mathcal{X}$. The complementary projection $(I - P_S)$ is the suppressed remainder. This is the formalization promised in Chapter 1.3, where we noted that capsaicin "compresses the perceptual budget," and it explains both what attention gains and what it costs. The gain is resolution: within the attended subspace $S$, small differences that were lost in the full norm become salient, because the metric of $\mathcal{F}$ restricted to $S$ magnifies them. The cost is the discarded complement: a taster fixated on tannin genuinely perceives less of the fruit, because the components along $(I - P_S)$ have been projected out of the report.
 
 This reframes expert tasting as a disciplined sequence of projections — *deconstruction* of the integrated point by examining it one subspace at a time. The wine professional's structured protocol (appearance, then nose, then palate, then finish) is a schedule of projection operators $P_{\text{visual}}, P_{\text{aroma}}, P_{\text{taste}}, P_{\text{temporal}}$ applied in turn to the same fused $\mathbf{f}$. Crucially, attention's power is bounded by integration: the sommelier can project $\mathbf{f}$ however they like, but cannot recover the pre-image, and so cannot recover the un-dyed percept. They can attend *to the color* and consciously discount it — but the dye has already moved $\mathbf{f}$, and projecting the moved point onto the aroma subspace still yields the moved coordinates. This is why expert tasters who know Brochet's experiment still fail it: attention is post-integration, and the dye's damage is done before.
+
+![Figure 12.2](figures/ch12_fig2.svg)
+
+*Figure 12.2. Attention as projection (Section 12.5) and why it cannot undo the dye (Section 12.4), with illustrative coordinates. The red dye drags the integrated point of the white wine from f_white toward the red-wine region. Attending to aroma applies the projection P_S onto the aroma axis, which reads the coordinate of the moved point, 4.6, not that of the honest one, 2.2. The projection acts after integration and has no access to the input that moved the point.*
 
 ## 12.6 Memory and Flavor: The Madeleine as Associative Retrieval
 

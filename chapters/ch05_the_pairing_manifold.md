@@ -61,6 +61,10 @@ The geometry yields an immediate design rule, and it is the inverse of Concord's
 >
 > *Picture Concord's recommendations plotted not as a ranked list but as points on the hedonic manifold $\mathcal{H}$, with the familiar "strawberry" anchor $\mathbf{f}^\star_{\text{straw}}$ marked. White chocolate sums to a point well outside any anchor — new territory, judged on its merits, pleasant: on $\mathcal{H}$. Basil likewise lands in open country. But tomato sums into the near shell around $\mathbf{f}^\star_{\text{straw}}$ — into the moat — exactly where $H$ dips below the surrounding surface. Concord, ranking by summand similarity, had no coordinate for "distance from a strong anchor," so it could not see the moat at all; the very feature that scored tomato highest (shared volatiles with strawberry) is the feature that dropped it into the valley. The fix is not a better similarity score but a second axis — distance to the nearest strong category — and a penalty on the near shell of each anchor. With that axis added, the sparkle icon moves off tomato and onto something safely far: rhubarb, black pepper, or the blue cheese of §5.4.*
 
+![Figure 5.1](figures/ch05_fig1.svg)
+
+*Figure 5.1. A two-dimensional slice of the hedonic function H that Section 5.6 posits, keeping its inverted-paraboloid term (i) and one uncanny-valley term (iii). The contours are levels of H, brighter for higher values. Around the strawberry anchor the penalty digs a ring-shaped moat at the radius σ (dashed), lower than both the anchor and the ground outside it. A pairing whose sum lands in the moat, where the chapter places strawberry and tomato, scores H = -0.53; one that lands in open country near the interior, where it places blue cheese and honey, scores -0.03. All positions and parameters are illustrative: μ = (6.2, 3.6), A = diag(0.035, 0.08), σ = 1, β = 1.*
+
 ## 5.4 Novelty as Distance from the Training Manifold
 
 If the near shell is a trap, the far country is the opportunity. The pairings we call *inspired* — chocolate and chili, blue cheese and honey, strawberry and black pepper, white chocolate and caviar (Blumenthal's much-cited dish, built explicitly on shared amines) — are not near-misses of the familiar. They are deliberate excursions to parts of $\mathcal{H}$ that the eater's training set never covered, and that is the source of their power.
@@ -112,6 +116,10 @@ which is zero at the anchor ($d=0$), rises to a maximum penalty at $d=\sigma$ (t
 The model now explains the running example as arithmetic rather than a list of scores. **Strawberry + tomato:** term (ii) is small (cosine near 1, little complementarity reward — exactly the redundancy Concord mistook for a virtue), and term (iii) is large and negative because the sum sits in the moat of the strawberry anchor; the valley penalty dominates and $H$ goes negative. **Blue cheese + honey:** term (ii) is large (near-orthogonal, high complementarity), term (i) is satisfied (the sum lands in the manifold interior, salt-sweet balance respected), and term (iii) is negligible (no anchor nearby); all three terms cooperate and $H$ is high. The two pairings cosine similarity could not tell apart are now separated by the sign of $H$.
 
 **[Conjecture.]** $H$ as written is *personal and cultural*: $\boldsymbol{\mu}$, $A$, the anchor set $\{\mathbf{a}_k\}$, and the moat radius $\sigma$ are all fit to an individual's training manifold (§5.2), while a rigid biological core (the signs on the sweet, bitter, and intensity axes of $A$) is shared across all eaters. A recommender that fits this kernel per-user — rather than scoring shared compounds globally, as Concord did — should avoid the uncanny valley and find on-manifold novelty, and the gap between the two approaches is a clean, falsifiable prediction this chapter hands to Part IV.
+
+![Figure 5.2](figures/ch05_fig2.svg)
+
+*Figure 5.2. The shell penalty of Section 5.6, K(d) = (d²/σ²)·exp(−d²/σ²), drawn with the sign it carries in H. It is zero at the anchor, where the prediction is confirmed, deepest at d = σ, where it reaches −1/e ≈ −0.368, and returns toward zero far away, where no prediction fires. The horizontal axis is the distance from the anchor in units of the moat radius σ.*
 
 ## Where the Manifold Leads
 

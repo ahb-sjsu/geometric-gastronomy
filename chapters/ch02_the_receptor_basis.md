@@ -86,6 +86,10 @@ This is the precise sense in which the flavor PCA mirrors modern representation 
 >
 > *Crucially, the rest of the pipeline is working correctly. Daniel's flavor PCA, his hedonic axis, his memory associations — all faithfully report that the dish has landed near "soap," because on his basis it has. The divide is not in the brain's interpretation; it is one perturbed measurement at the very first matrix, propagated upward by an otherwise identical computation. Two correct readings of one stimulus through two matrices that differ by a single row.*
 
+![Figure 2.1](figures/ch02_fig1.svg)
+
+*Figure 2.1. The chain of three dimensionalities of Section 2.4 on a logarithmic scale: about 10,000 chemical species, about 400 receptor channels, and 10 to 30 perceptual dimensions. The binding affinity matrix A performs a 25-fold compression, and the neural reduction a further 13-to-40-fold one (400/30 and 400/10). The lighter part of the last bar is the range from 10 to 30.*
+
 ## 2.5 Individual Variation as Rotations of Flavor Space
 
 The cilantro example is one instance of a general fact: the receptor basis is not a species constant. It varies from person to person, because the genes encoding receptors are polymorphic, and each common polymorphism is a small *re-parameterization* of flavor space.
@@ -109,6 +113,10 @@ The geometric reading is *not* that supertasters inhabit a higher-dimensional sp
 **[Modeling Axiom.]** We define a person's **effective flavor dimensionality** as the count of suprathreshold eigenvalues of the individual covariance $\Sigma_r$ — the perceptual axes whose discriminable variance exceeds their perceptual noise. Supertasting raises gain, lifting marginal eigenvalues above threshold and *raising* effective dimensionality; specific anosmias and non-taster haplotypes lower particular eigenvalues below threshold, *collapsing* dimensions. Two palates can share the same receptor basis yet differ in effective rank — and a dish optimized for one rank can be illegible or overwhelming at another.
 
 This reframes a familiar kitchen tension as a statement about rank. The chef who loves bitter amari, raw kale, and aggressive single-origin coffee may be a non-taster for whom these are pleasantly mild — operating in a lower-rank space where extra intensity is needed to register at all. The supertaster guest at the same table, resolving every bitter and burn at high gain, finds the food punishing. Neither is wrong; they evaluate the dish at different effective dimensionalities. Good cooking for a crowd is, in part, the problem of finding a point that reads as balanced across a *distribution* of effective ranks — which we pose formally as robustness of the seasoning fixed point in Chapter 6.
+
+![Figure 2.2](figures/ch02_fig2.svg)
+
+*Figure 2.2. Effective flavor dimensionality as Section 2.6 defines it: the count of eigenvalues of a person's receptor covariance that clear the noise floor. One illustrative spectrum, λk = g·exp(−(k − 1)/4), is drawn at three gains g. Raising the gain lifts marginal eigenvalues above the floor of 0.1, from 7 axes at g = 0.5 to 10 at g = 1 and 12 at g = 2, as the chapter describes for supertasters. Hollow markers lie below the floor. The vertical axis is logarithmic; spectrum, gains and floor are illustrative, not measured.*
 
 ## What the Basis Buys Us
 

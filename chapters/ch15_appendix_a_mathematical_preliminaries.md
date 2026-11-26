@@ -58,6 +58,10 @@ so $ds \approx 1.79$. Moving along the *joint* salt-and-umami direction covers m
 
 **Where this is used.** Riemannian structure is the backbone of Chapter 3 (the metric of flavor: Weber–Fechner as a logarithmic metric, position-dependent $g_{\mu\nu}$, Stevens' power law as curvature of iso-intensity surfaces). The olfactory manifold of Chapter 1 (§1.2) and Chapter 2 (§2.4) is a curved sheet inside receptor space. Geodesics reappear as fusion-cuisine interpolation in Chapter 9 (§9.4) and as the seasoning fixed point and stability arguments in Chapter 6 (§6.6). The path-dependence of the metric is flagged as an open problem in Chapter 14 (§14.2). The same differential-geometric apparatus is developed at length in sibling volumes — *Geometric Economics* (Volume 4) treats the decision manifold and its metric tensor in its Chapter 3–4, and *Geometric Cognition* (Volume 6) uses it for representational geometry.
 
+![Figure A.1](figures/appa_fig1.svg)
+
+*Figure A.1. The worked micro-example of Section A.1. The metric g = [[1, 0.6], [0.6, 1]] on a salt and umami patch makes the set of displacements of unit length an ellipse, drawn against the Euclidean unit circle. The displacement (1, 1), along the joint salt-and-umami direction, has perceptual length √3.2 ≈ 1.79 under g, against √2 ≈ 1.41 under the Euclidean metric, and reaches outside the ellipse; the displacement (1, −1) has length √0.8 ≈ 0.89 and stays inside it.*
+
 ## A.2 Convex Optimization, Simplex Geometry, and Pareto Frontiers
 
 ### Convex sets and convex functions
@@ -99,6 +103,10 @@ Compare D and C: C is both more savory (0.5 > 0.4) and lower sodium (0.3 < 0.6),
 
 **Where this is used.** Convexity and the simplex underlie Chapter 1 (§1.1, taste simplex), Chapter 8 (§8.1, recipes as weighted mixtures), and the constraint sets of Chapter 11 (§11.1) and Chapter 13 (§13.4, inverse design as convex projection). Pareto frontiers are the central object of Chapter 11 (§11.2–11.5, the palatability–nutrition trade-off and the geometric diet) and recur in the design trade-offs of Chapter 13.
 
+![Figure A.2](figures/appa_fig2.svg)
+
+*Figure A.2. The worked micro-example of Section A.2: four low-sodium broth formulas plotted by sodium, where lower is better, and savoriness, where higher is better. C is both more savory and lower in sodium than D, so D is off the frontier (B dominates it too). None of A, B and C dominates another, so they form the Pareto frontier, and choosing among them means choosing a rate of trade between salt and savor. The shaded box is the region whose formulas would dominate D.*
+
 ## A.3 PCA and Dimensionality Reduction
 
 ### The problem: too many coordinates, few real directions
@@ -138,6 +146,10 @@ $$ \Sigma \approx \begin{pmatrix} 2.67 & 2.33 \\ 2.33 & 2.05 \end{pmatrix}, $$
 whose leading eigenvector is close to $\mathbf{v}_1 \approx (0.75, 0.66)$ — the diagonal "ripe-and-sweet" direction — carrying essentially all the variance, while the orthogonal eigenvector $\mathbf{v}_2 \approx (-0.66, 0.75)$ carries almost none. PCA therefore reports that these "two" measured coordinates are really **one** perceptual dimension plus negligible noise: projecting onto $\mathbf{v}_1$ alone loses almost nothing. That is the toy version of the book's recurring finding — nominal flavor dimensions collapse to far fewer effective ones because the underlying biochemistry and perception are correlated (Chapter 2, §2.4).
 
 **Where this is used.** PCA and dimensionality reduction are foundational to Chapter 2 (§2.4, perceptual compression to ten to thirty dimensions), Chapter 9 (§9.2–9.3, the principal components and signature directions of a cuisine), and Chapter 10 (§10.4, flavor compression and the Matryoshka method). The covariance/Mahalanobis connection links back to the metric of Chapter 3, and the pairing-dimension analysis of Chapter 5 (§5.5) is a PCA of human preference data. The reduction $10^4 \to 400 \to {\sim}30$ asserted in Chapter 1 (§1.2) is, layer by layer, a chain of such projections.
+
+![Figure A.3](figures/appa_fig3.svg)
+
+*Figure A.3. The worked micro-example of Section A.3, recomputed from its three printed points: three centered foods described by sweetness and perceived ripeness. Their covariance is [[2.67, 2.33], [2.33, 2.05]]. The leading eigenvector (0.75, 0.66) carries 99.9 % of the variance, and the orthogonal eigenvector (−0.66, 0.75) almost none. The arrow along the leading eigenvector is drawn at one standard deviation, √λ1 = 2.17; the standard deviation along the other, 0.05, is too small to draw, so only its direction is marked.*
 
 ## How to Read the Rest of the Book with These Tools
 

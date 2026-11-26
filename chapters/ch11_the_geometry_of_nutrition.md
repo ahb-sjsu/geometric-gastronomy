@@ -39,6 +39,10 @@ The convexity is not a technicality; it is the structural fact that makes nutrit
 
 This is the first lesson of the geometry. $\mathcal{C}$ is large — there are vastly many ways to be well-nourished — but its *vertices*, the points that scalar optimization finds, are pathological. Optimizing any single scalar objective over a convex polytope drives the solution to a vertex (this is the fundamental theorem of linear programming), and the vertices of $\mathcal{C}$ are precisely the extreme, lopsided, monotonous diets. To eat well in the full sense, we must stay in the *interior* of $\mathcal{C}$ — and we must bring $\mathcal{F}$ back into the picture, because nothing inside $\mathcal{N}$ alone tells us where the interior is pleasant.
 
+![Figure 11.1](figures/ch11_fig1.svg)
+
+*Figure 11.1. Why a single scalar objective picks a corner (Section 11.1), in an illustrative two-food version of Stigler's diet problem. The shaded polygon is the set of diets that meet two nutrient floors and stay under an energy ceiling; it is convex, as the chapter's feasible set is. Cost is linear, so its minimum lies at a vertex, here the one where both floors bind exactly, at a cost of 4.35; the other vertices cost 8.70, 12.80, 19.20. No linear cost, other than a constant one, has its minimum in the interior, where the balanced diets lie.*
+
 ## 11.2 The Palatability–Nutrition Tradeoff
 
 Now reunite the two spaces. Each food carries both vectors, so a diet — a weighted basket of foods — induces both a total nutrition vector $\mathbf{n}$ and a flavor-experience that we summarize, following Chapter 3.6, by a scalar **palatability** $P$ (the height of the hedonic gradient, integrated over the meal). Two numbers now describe any diet: its palatability $P$ and a scalar measure of nutritional quality $Q$ — say, the (signed) distance into the feasible set $\mathcal{C}$, positive when comfortably inside, negative when a requirement is violated.
@@ -90,6 +94,10 @@ How does craft bend it? Through exactly the operators of Chapter 6. The reason a
 **[Conjecture.]** *The geometric diet problem — maximize palatability $P$ subject to $\mathbf{n} \in \mathcal{C}$ — is, locally, a tractable convex-ish optimization, because the constraint set $\mathcal{C}$ is convex and the seasoning operators provide a basis of high-$\mathcal{F}$-displacement, low-$\mathcal{N}$-displacement moves that let a cook climb toward $\mathcal{H}$ along the boundary of $\mathcal{C}$ rather than away from it.* The chip-maker climbs $H$ and exits $\mathcal{C}$; the cook climbs $H$ *staying inside* $\mathcal{C}$, using moves that are cheap in $\mathcal{N}$. The difference between junk and a great vegetable dish is not the amount of pleasure. It is the *direction of the gradient that produced it* — outward from $\mathcal{C}$, or along its boundary. The geometry of nutrition is, at bottom, the claim that the second path exists and that culinary craft is the technology for walking it.
 
 This is also why "healthy eating" framed as deprivation fails and framed as *cooking* succeeds. Deprivation operates in $\mathcal{N}$ alone — lowering $P$ to raise $Q$, sliding down the Pareto frontier — and the body's monotony alarm fights it the whole way. Cooking operates in $\mathcal{F} \times \mathcal{N}$ jointly, raising $P$ at fixed or improved $Q$, and the body's drives become allies. Daniel did not need more discipline. He needed a knife, a lemon, and ten minutes.
+
+![Figure 11.2](figures/ch11_fig2.svg)
+
+*Figure 11.2. The palatability and nutrition plane of Section 11.2, schematic. The inner curve stands for the Pareto frontier of the industrial food supply as the chapter describes it, with junk food at its high-palatability end and Soylent at its high-nutrition end. Section 11.5 posits that cooking with the seasoning operators pushes the frontier outward, so that the geometric diet set, nutritious and near the hedonic manifold, lies beyond the industrial frontier. The shapes are illustrative; no data are plotted.*
 
 ## 11.6 Personalized Nutrition as Personal Flavor Space
 

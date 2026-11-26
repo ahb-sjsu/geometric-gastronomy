@@ -87,7 +87,7 @@ The geometry is only as honest as the matrix, and $A$ has four structural distor
 
 **Presence/absence is not concentration.** A binary $A_{ij}$ says strawberry "contains" furaneol and "contains" some trace ester at equal weight $1$, though one defines the fruit and the other is a rounding error. Cosine similarity (Chapter 4) computed on binary vectors therefore measures *chemical overlap of inventories*, not *perceptual similarity of flavor* — a fact that explains both the successes and the failures of the food-pairing hypothesis. When concentrations exist, use them; when they do not, be explicit that you are computing an inventory-overlap statistic.
 
-**Missing data is not zero.** A null in the `contains` table almost always means "not measured in this food," not "measured and absent." Zero-filling — the default behavior of every pivot operation — fabricates absence. This biases $A$ toward whatever foods have been studied most (tomato, coffee, wine, and strawberry are exhaustively profiled; most ingredients are not), an instance of the reporting bias Chapter 4 (§4.7) flags when reanalyzing Ahn's network.
+**Missing data is not zero.** A null in the `contains` table almost always means "not measured in this food," not "measured and absent." Zero-filling — the default behavior of every pivot operation — fabricates absence. This biases $A$ toward whatever foods have been studied most (tomato, coffee, wine, and strawberry are exhaustively profiled; most ingredients are not), an instance of the reporting bias Chapter 4 (§4.7) flags in its proposed reanalysis of Ahn's network.
 
 **Detection threshold $\neq$ perceptual threshold.** GC-MS (Appendix C) detects compounds far below the concentration at which a human could smell them, and conversely a compound near or below its **odor detection threshold** contributes nothing to perceived aroma regardless of how it weights the vector. The chemically correct vector and the perceptually correct vector differ by exactly this threshold nonlinearity. The principled fix is to weight each component not by raw concentration $A_{ij}$ but by its **odor activity value** $\text{OAV}_{ij} = A_{ij} / \theta_j$, where $\theta_j$ is compound $j$'s odor threshold; components with $\text{OAV} < 1$ are perceptually silent. This is the first, crudest step of Chapter 1's projection from chemistry toward perception.
 
@@ -121,7 +121,7 @@ The result is a vector in which a handful of components dominate. **[Empirical.]
 
 ## B.4 Practical Recommendations
 
-For a reproducible flavor-space pipeline of the kind used throughout this book and released in Appendix D, the recommendations reduce to a short list:
+For a reproducible flavor-space pipeline of the kind described throughout this book and sketched in Appendix D, the recommendations reduce to a short list:
 
 - **Use FlavorDB as the bipartite backbone**, FooDB for breadth and concentrations, and VCF (where licensed) for authoritative aroma validation. Treat none of them as complete.
 - **Join on InChIKey**, fall back to PubChem CID, and treat name-based joins as a manual-review-only last resort.

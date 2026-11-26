@@ -55,7 +55,7 @@ The two fundamental pairing principles as geometric operations.
 - 4.4 Complementarity as orthogonality: ingredients that "fill in" different dimensions of flavor space
 - 4.5 The pairing as a sum: f_dish = f_1 + f_2 + ... and the geometry of what makes a sum "balanced"
 - 4.6 Synergy and antagonism: when the sum is superlinear (umami + salt) or sublinear (bitter + sweet cancel), the space is curved
-- 4.7 Experimental validation: Ahn's data reanalyzed with modern embedding techniques
+- 4.7 Experimental validation: a proposed reanalysis of Ahn's data with modern embedding techniques
 
 ### Chapter 5: The Pairing Manifold
 
@@ -114,7 +114,7 @@ What are the principal components of a cuisine?
 - 9.3 The signature ingredients as extreme points: soy sauce defines a direction in Japanese cuisine space, cumin defines a direction in Indian cuisine space
 - 9.4 Fusion cuisine as interpolation: moving along geodesics between cuisine distributions
 - 9.5 Cultural evolution as gradient descent: cuisines optimize for local ingredients, climate, and hedonic preferences over centuries
-- 9.6 The convergence theorem: why distant cuisines independently discover similar flavor principles (acid + fat + umami appears everywhere)
+- 9.6 The convergence conjecture: why distant cuisines independently discover similar flavor principles (acid + fat + umami appears everywhere)
 
 ---
 

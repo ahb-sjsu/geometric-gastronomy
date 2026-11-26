@@ -27,7 +27,7 @@ Flavor perception, ingredient pairing, recipe construction, and culinary traditi
 
 ## Status
 
-Draft. See `OUTLINE.md` for the chapter plan (5 parts, 14 chapters).
+Draft. See `OUTLINE.md` for the chapter plan (5 parts, 14 chapters, 4 appendices).
 
 ## Series map
 

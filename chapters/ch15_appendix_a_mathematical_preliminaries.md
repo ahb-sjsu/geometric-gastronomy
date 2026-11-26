@@ -133,9 +133,9 @@ $$ \mathbf{x}_1 = (-2, -1.8), \quad \mathbf{x}_2 = (0, 0.1), \quad \mathbf{x}_3 
 
 The points lie almost along the line $y \approx x$ — sweetness and ripeness rise together. The covariance matrix is approximately
 
-$$ \Sigma \approx \begin{pmatrix} 2.67 & 2.33 \\ 2.33 & 2.04 \end{pmatrix}, $$
+$$ \Sigma \approx \begin{pmatrix} 2.67 & 2.33 \\ 2.33 & 2.05 \end{pmatrix}, $$
 
-whose leading eigenvector is close to $\mathbf{v}_1 \approx (0.76, 0.65)$ — the diagonal "ripe-and-sweet" direction — carrying essentially all the variance, while the orthogonal eigenvector $\mathbf{v}_2 \approx (-0.65, 0.76)$ carries almost none. PCA therefore reports that these "two" measured coordinates are really **one** perceptual dimension plus negligible noise: projecting onto $\mathbf{v}_1$ alone loses almost nothing. That is the toy version of the book's recurring finding — nominal flavor dimensions collapse to far fewer effective ones because the underlying biochemistry and perception are correlated (Chapter 2, §2.4).
+whose leading eigenvector is close to $\mathbf{v}_1 \approx (0.75, 0.66)$ — the diagonal "ripe-and-sweet" direction — carrying essentially all the variance, while the orthogonal eigenvector $\mathbf{v}_2 \approx (-0.66, 0.75)$ carries almost none. PCA therefore reports that these "two" measured coordinates are really **one** perceptual dimension plus negligible noise: projecting onto $\mathbf{v}_1$ alone loses almost nothing. That is the toy version of the book's recurring finding — nominal flavor dimensions collapse to far fewer effective ones because the underlying biochemistry and perception are correlated (Chapter 2, §2.4).
 
 **Where this is used.** PCA and dimensionality reduction are foundational to Chapter 2 (§2.4, perceptual compression to ten to thirty dimensions), Chapter 9 (§9.2–9.3, the principal components and signature directions of a cuisine), and Chapter 10 (§10.4, flavor compression and the Matryoshka method). The covariance/Mahalanobis connection links back to the metric of Chapter 3, and the pairing-dimension analysis of Chapter 5 (§5.5) is a PCA of human preference data. The reduction $10^4 \to 400 \to {\sim}30$ asserted in Chapter 1 (§1.2) is, layer by layer, a chain of such projections.
 
